@@ -46,7 +46,6 @@ A aplicação deve lidar com **estados complexos**, **sincronização de dados**
 
 **Requisitos Avançados:**
 - **Debounce inteligente** no autocomplete (300ms)
-- **Keyboard navigation** completa (↑↓ Enter Esc)
 - **Persistência de busca** no localStorage
 - **Últimas buscas** (histórico das 5 últimas)
 - **Validação em tempo real** com feedback visual
@@ -75,8 +74,6 @@ A aplicação deve lidar com **estados complexos**, **sincronização de dados**
   - Distância (se houver localização)
 - **URL State Sync:** Todos filtros devem refletir na URL
 - **Share functionality:** Link pode ser compartilhado com filtros aplicados
-- **Persistent filters:** Filtros mantidos ao voltar da página de detalhes
-- **Optimistic UI:** Aplicar filtros antes da resposta da API
 - **Error boundaries** específicas para seções
 - **Retry logic** em caso de falha de requisição
 
@@ -112,7 +109,6 @@ A aplicação deve lidar com **estados complexos**, **sincronização de dados**
 - **Reviews de hóspedes** com paginação
 - **Similar hotels** (recomendações)
 - **Share button** (copiar link)
-- **Favoritar hotel** (persistir no localStorage)
 - **Breadcrumb navigation**
 - **Scroll to section** (âncoras)
 
@@ -149,12 +145,7 @@ A aplicação deve lidar com **estados complexos**, **sincronização de dados**
 - **Cálculo de preços:**
   - Preço base × número de noites
   - Taxas e impostos
-  - Descontos (se aplicável)
   - Total com breakdown detalhado
-- **Proteção contra perda de dados:**
-  - Auto-save no localStorage a cada 5s
-  - Warning antes de sair da página
-  - Recuperação de formulário incompleto
 - **Termos e condições:**
   - Checkbox obrigatório
   - Modal com texto completo
@@ -182,34 +173,9 @@ A aplicação deve lidar com **estados complexos**, **sincronização de dados**
 - Após finalizar reserva, redirecionar para página de confirmação
 - Mostrar número de reserva (pode ser gerado no cliente)
 - Resumo completo da reserva
-- Opção de baixar comprovante (pode ser print do navegador)
 - Botão para nova busca
-- Timeline com próximos passos
 
 ---
-
-## 🎨 Design e Experiência
-
-### Responsividade (Obrigatório)
-- **Mobile-first approach**
-- Breakpoints: 640px, 768px, 1024px, 1280px, 1536px
-- Touch-friendly (botões com min 44x44px)
-- Gestures naturais (swipe em galerias mobile)
-
-### Acessibilidade (Obrigatório - WCAG 2.1 AA)
-- **Navegação por teclado** completa
-- **Screen reader** friendly (ARIA labels)
-- **Contraste** mínimo 4.5:1
-- **Focus indicators** visíveis
-- **Skip links** para navegação
-- **Alt text** em todas as imagens
-- **Landmarks** semânticos corretos
-
-### Dark Mode (Obrigatório)
-- Toggle entre light/dark
-- Persistência da preferência
-- Transições suaves
-- Todas as páginas funcionais
 
 ### Loading States
 - **Skeleton screens** customizados por componente
@@ -234,19 +200,6 @@ A aplicação deve lidar com **estados complexos**, **sincronização de dados**
 - Props **bem tipadas** com JSDoc
 - **Separation of concerns** (lógica vs apresentação)
 
-### Performance (Obrigatório)
-- **Lighthouse Score:**
-  - Performance: > 90
-  - Accessibility: 100
-  - Best Practices: > 90
-  - SEO: > 90
-- **Core Web Vitals:**
-  - LCP < 2.5s
-  - FID < 100ms
-  - CLS < 0.1
-- **Bundle size** otimizado (code splitting)
-- **Images** otimizadas (Next.js Image)
-
 ### Type Safety
 - **Strict TypeScript** config
 - Zero `any` types
@@ -257,7 +210,7 @@ A aplicação deve lidar com **estados complexos**, **sincronização de dados**
 
 ## 🧪 Requisitos de Testes
 
-### Unit Tests (Obrigatório - min 70% coverage)
+### Unit Tests (min 70% coverage)
 - Componentes críticos
 - Utility functions
 - Validações Zod
