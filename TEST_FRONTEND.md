@@ -2,7 +2,7 @@
 
 ## 💻 Sobre o Teste
 
-Este teste avalia sua capacidade de construir uma aplicação web **production-ready** com arquitetura escalável, performance otimizada e experiência de usuário excepcional. Você desenvolverá um sistema completo de busca e reserva de hotéis, lidando com cenários reais de complexidade.
+Este teste avalia sua capacidade de construir uma aplicação web **production-ready** com arquitetura escalável, performance otimizada e experiência de usuário excepcional. Você desenvolverá um sistema de busca e reserva de hotéis, lidando com cenários reais de complexidade.
 
 ---
 
@@ -22,21 +22,21 @@ A aplicação deve lidar com **estados complexos**, **sincronização de dados**
 - **State Management:** Zustand ou Redux Toolkit
 - **Data Fetching:** TanStack Query (React Query v5)
 - **Formulários:** React Hook Form + Zod
-- **Testes:** Vitest + Testing Library (mínimo 70% coverage)
+- **API/Integração:** É **obrigatório** utilizar o `mock-api` fornecido na pasta do projeto para todas as chamadas de backend simuladas.
 
 ### Stack Adicional (Bônus mas recomendado):
 - Biome ou ESLint + Prettier (linting)
-- Storybook (documentação de componentes)
-- Playwright (testes E2E)
 
 ---
 
 ## 📋 Requisitos Funcionais
 
+> ⚠️ **Aviso sobre os Requisitos Avançados:** Você **não é obrigado** a implementar todos os recursos avançados listados abaixo. Eles servem como opções para você demonstrar seu domínio técnico e ir além do básico. Escolha implementar aqueles que melhor destacam suas habilidades ou que você julga agregarem mais valor ao produto.
+
 ### 1. 🏠 Página Inicial (`/`)
 
 **Requisitos Básicos:**
-- Campo de busca com autocomplete usando `/suggestions`
+- Campo de busca com autocomplete consumindo o endpoint `/suggestions` do `mock-api`
 - Seleção de datas (check-in/check-out) com validação:
   - Check-in não pode ser no passado
   - Check-out deve ser pelo menos 1 dia após check-in
@@ -44,7 +44,7 @@ A aplicação deve lidar com **estados complexos**, **sincronização de dados**
 - Seleção de número de quartos e hóspedes (adultos/crianças)
 - Redirecionamento para `/search` com parâmetros na URL
 
-**Requisitos Avançados:**
+**Requisitos Avançados (Opcionais):**
 - **Debounce inteligente** no autocomplete (300ms)
 - **Persistência de busca** no localStorage
 - **Últimas buscas** (histórico das 5 últimas)
@@ -56,12 +56,12 @@ A aplicação deve lidar com **estados complexos**, **sincronização de dados**
 ### 2. 🔍 Página de Busca (`/search`)
 
 **Requisitos Básicos:**
-- Listagem de hotéis via `/hotels` com cards informativos
+- Listagem de hotéis consumindo via `/hotels` do `mock-api` com cards informativos
 - Estados de loading com skeleton screens
 - Tratamento de "nenhum resultado encontrado"
 - Paginação ou infinite scroll
 
-**Requisitos Avançados:**
+**Requisitos Avançados (Opcionais):**
 - **Filtros múltiplos simultâneos:**
   - Faixa de preço (slider com valores)
   - Avaliação mínima (estrelas)
@@ -87,13 +87,13 @@ A aplicação deve lidar com **estados complexos**, **sincronização de dados**
 ### 3. 🏨 Página de Detalhes (`/hotel/[hotelId]`)
 
 **Requisitos Básicos:**
-- Rota dinâmica com dados do endpoint `/hotels/[id]`
+- Rota dinâmica com dados do endpoint `/hotels/[id]` do `mock-api`
 - Galeria de fotos
 - Informações do hotel
 - Lista de quartos disponíveis
 - Botão "Selecionar" que salva no estado global e redireciona
 
-**Requisitos Avançados:**
+**Requisitos Avançados (Opcionais):**
 - **Galeria interativa:**
   - Lightbox/modal para fotos
   - Navegação por teclado
@@ -128,7 +128,7 @@ A aplicação deve lidar com **estados complexos**, **sincronização de dados**
 - Formulário com validação (nome, email, telefone)
 - Mensagem de sucesso ao finalizar
 
-**Requisitos Avançados:**
+**Requisitos Avançados (Opcionais):**
 - **Multi-step form:**
   - Step 1: Dados pessoais
   - Step 2: Dados de pagamento (simulado)
@@ -208,108 +208,31 @@ A aplicação deve lidar com **estados complexos**, **sincronização de dados**
 
 ---
 
-## 🧪 Requisitos de Testes
-
-### Unit Tests (min 70% coverage)
-- Componentes críticos
-- Utility functions
-- Validações Zod
-- Custom hooks
-- Stores Zustand
-
-### Integration Tests (Recomendado)
-- Fluxos principais
-- Formulários completos
-- Navegação entre páginas
-
-### E2E Tests (Bônus)
-- Happy path completo (busca → seleção → checkout)
-- Edge cases críticos
-- Responsividade
-
----
-
 ## 📦 Entregáveis
 
 ### 1. Código (Repositório Git)
 - **Commits atômicos** com mensagens descritivas
 - Seguir **Conventional Commits**
 - Branch principal: `main`
-- **README.md** completo (ver template abaixo)
 
-### 2. README.md deve conter:
-```markdown
-# Hotel Booking System
-
-## 🚀 Como Executar
-
-### Pré-requisitos
-- Node.js >= 20
-- pnpm >= 9
-
-### Instalação
-\`\`\`bash
-# Clone + install + dev
-\`\`\`
-
-### Scripts Disponíveis
-- dev, build, test, lint, etc
-
-## 🏗️ Arquitetura
-
-### Decisões Técnicas
-- Por que escolhi X ao invés de Y
-- Trade-offs considerados
-- Padrões aplicados
-
-### Estrutura do Projeto
-- Explicação da organização
-
-## 🧪 Testes
-
-### Como rodar
-\`\`\`bash
-pnpm test
-\`\`\`
-
-### Coverage
-- Onde foquei e por quê
-
-## 📋 Checklist de Requisitos
-- [x] Requisito 1
-- [x] Requisito 2
-...
-
-## 🎯 O que faria diferente com mais tempo
-- Feature X
-- Otimização Y
-- Refactor Z
-
-## 🐛 Bugs Conhecidos
-- Nenhum / Lista de issues conhecidas
-
-## 📸 Screenshots
-(Adicionar imagens da aplicação)
-```
-
-### 3. Deploy (Bônus mas recomendado)
+### 2. Deploy (Bônus mas recomendado)
 - Vercel ou similar
-- URL funcional no README
+- URL funcional disponibilizada junto com a entrega
 
 ---
 
 ## ✅ Critérios de Avaliação
 
-### 1. Código (40%)
+### 1. Código (45%)
 - **Qualidade:** Clean code, SOLID, DRY
 - **TypeScript:** Tipagem forte, zero any
 - **Organização:** Estrutura clara, imports organizados
 - **Componentização:** Reutilização, composição
 - **Performance:** Otimizações aplicadas
 
-### 2. Funcionalidade (30%)
-- **Requisitos básicos:** Todos implementados
-- **Requisitos avançados:** Quantos foram implementados
+### 2. Funcionalidade (35%)
+- **Requisitos básicos:** Todos implementados consumindo o `mock-api`
+- **Requisitos avançados:** Avaliaremos os que forem implementados (lembrando que são opcionais)
 - **Edge cases:** Tratamento de erros, validações
 - **UX:** Fluidez, feedback, loading states
 
@@ -319,13 +242,7 @@ pnpm test
 - **Patterns:** Uso apropriado de padrões
 - **Type safety:** TypeScript aproveitado
 
-### 4. Testes (10%)
-- **Coverage:** Mínimo 70%
-- **Qualidade:** Testes significativos
-- **Edge cases:** Casos extremos cobertos
-
-### 5. Documentação (5%)
-- **README:** Completo e claro
+### 4. Documentação (5%)
 - **Comentários:** Onde necessário
 - **JSDoc:** Em componentes complexos
 - **Commits:** Histórico limpo
@@ -335,9 +252,6 @@ pnpm test
 ## 🌟 Diferenciais (Bônus)
 
 ### Técnicos
-- [ ] **Monorepo** com Turborepo
-- [ ] **Storybook** com todos os componentes
-- [ ] **Playwright** com cenários E2E
 - [ ] **CI/CD** configurado (GitHub Actions)
 - [ ] **Docker** setup completo
 - [ ] **Analytics** tracking (simulado)
@@ -353,7 +267,6 @@ pnpm test
 - [ ] **Notificações** (toast system)
 - [ ] **Animações** com Framer Motion
 - [ ] **Mapas interativos** (Google Maps/Mapbox)
-- [ ] **Chat support** (UI simulado)
 
 ### Performance
 - [ ] **Partial Prerendering** (Next.js 15)
@@ -372,8 +285,6 @@ pnpm test
 - ❌ Fazer commit de `node_modules` ou `.env`
 - ❌ UI quebrada no mobile
 - ❌ Requisitos básicos incompletos
-- ❌ Zero testes
-- ❌ README vazio
 
 ---
 
