@@ -46,7 +46,9 @@ function Field({
 }) {
   return (
     <div>
-      <label htmlFor={id} className="mb-1 block text-sm font-medium text-gray-700">{label}</label>
+      <label htmlFor={id} className="mb-1 block text-sm font-medium text-gray-700">
+        {label}
+      </label>
       {children}
       {error && <p className="mt-1 text-xs text-red-600">{error}</p>}
     </div>
@@ -66,14 +68,11 @@ export function PaymentStep({
     register,
     handleSubmit,
     setValue,
-    watch,
     formState: { errors },
   } = form
 
   const [discountInput, setDiscountInput] = useState("")
   const [discountFeedback, setDiscountFeedback] = useState<"idle" | "ok" | "error">("idle")
-
-  const discountCode = watch("discountCode")
 
   function handleApply() {
     const success = onApplyDiscount(discountInput)
@@ -91,7 +90,12 @@ export function PaymentStep({
 
         <div className="space-y-4">
           <Field label="Nome no cartão" id="cardHolder" error={errors.cardHolder?.message}>
-            <input id="cardHolder" {...register("cardHolder")} placeholder="JOÃO SILVA" className={inputClass} />
+            <input
+              id="cardHolder"
+              {...register("cardHolder")}
+              placeholder="JOÃO SILVA"
+              className={inputClass}
+            />
           </Field>
 
           <Field label="Número do cartão" id="cardNumber" error={errors.cardNumber?.message}>

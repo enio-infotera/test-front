@@ -158,7 +158,9 @@ export function HotelFilters({ filters, onFiltersChange, onClose }: HotelFilters
         <div className="space-y-3">
           <div className="flex items-center gap-2">
             <div className="flex-1">
-              <label htmlFor="price-min" className="text-xs text-slate-500 mb-1 block">Mín.</label>
+              <label htmlFor="price-min" className="text-xs text-slate-500 mb-1 block">
+                Mín.
+              </label>
               <input
                 id="price-min"
                 type="number"
@@ -172,7 +174,9 @@ export function HotelFilters({ filters, onFiltersChange, onClose }: HotelFilters
             </div>
             <span className="text-slate-300 mt-5">—</span>
             <div className="flex-1">
-              <label htmlFor="price-max" className="text-xs text-slate-500 mb-1 block">Máx.</label>
+              <label htmlFor="price-max" className="text-xs text-slate-500 mb-1 block">
+                Máx.
+              </label>
               <input
                 id="price-max"
                 type="number"

@@ -460,13 +460,13 @@ export function HotelDetailContent({ hotelId }: HotelDetailContentProps) {
                   <div className="flex-1 border border-gray-200 rounded-xl px-3 py-2.5">
                     <p className="text-xs text-slate-400">Check-in</p>
                     <p className="font-medium">
-                      {checkIn ? new Date(checkIn + "T12:00").toLocaleDateString("pt-BR") : "—"}
+                      {checkIn ? new Date(`${checkIn}T12:00`).toLocaleDateString("pt-BR") : "—"}
                     </p>
                   </div>
                   <div className="flex-1 border border-gray-200 rounded-xl px-3 py-2.5">
                     <p className="text-xs text-slate-400">Check-out</p>
                     <p className="font-medium">
-                      {checkOut ? new Date(checkOut + "T12:00").toLocaleDateString("pt-BR") : "—"}
+                      {checkOut ? new Date(`${checkOut}T12:00`).toLocaleDateString("pt-BR") : "—"}
                     </p>
                   </div>
                 </div>

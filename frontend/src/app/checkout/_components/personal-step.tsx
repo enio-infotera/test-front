@@ -79,10 +79,20 @@ export function PersonalStep({ form, onSubmit, totalGuests = 1 }: PersonalStepPr
         <div className="space-y-5">
           <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
             <Field id="firstName" label="Nome" error={errors.firstName?.message}>
-              <input id="firstName" {...register("firstName")} placeholder="João" className={inputClass} />
+              <input
+                id="firstName"
+                {...register("firstName")}
+                placeholder="João"
+                className={inputClass}
+              />
             </Field>
             <Field id="lastName" label="Sobrenome" error={errors.lastName?.message}>
-              <input id="lastName" {...register("lastName")} placeholder="Silva" className={inputClass} />
+              <input
+                id="lastName"
+                {...register("lastName")}
+                placeholder="Silva"
+                className={inputClass}
+              />
             </Field>
           </div>
           <Field id="email" label="E-mail" error={errors.email?.message}>

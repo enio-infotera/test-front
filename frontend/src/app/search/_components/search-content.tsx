@@ -144,7 +144,7 @@ export function SearchContent() {
     if (listRef.current) {
       setScrollMargin(listRef.current.offsetTop)
     }
-  }, [filtered.length, isLoading, listRef, setScrollMargin])
+  }, [])
 
   const rowVirtualizer = useWindowVirtualizer({
     count: rows.length,

@@ -54,7 +54,10 @@ export function HotelSortBar({
         </button>
 
         <div className="flex items-center gap-2">
-          <label htmlFor="sort-select" className="text-sm text-slate-500 whitespace-nowrap hidden sm:block">
+          <label
+            htmlFor="sort-select"
+            className="text-sm text-slate-500 whitespace-nowrap hidden sm:block"
+          >
             Ordenar por:
           </label>
           <select
