@@ -17,13 +17,6 @@ export default function HomePage() {
         />
         <div className="absolute inset-0 bg-gradient-to-b from-black/55 via-black/45 to-black/75" />
 
-        <div className="relative z-10 mb-6 text-center">
-          <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/15 backdrop-blur-md text-white text-sm font-medium border border-white/25">
-            <span className="w-1.5 h-1.5 rounded-full bg-green-400 animate-pulse" />
-            Reservas disponíveis agora
-          </span>
-        </div>
-
         <div className="relative z-10 text-center mb-8 px-4">
           <h1 className="text-5xl md:text-6xl lg:text-7xl font-extrabold text-white leading-[1.08] tracking-tight">
             Sua próxima viagem
@@ -86,125 +79,6 @@ export default function HomePage() {
               </div>
             ))}
           </div>
-        </div>
-      </section>
-
-      <section className="px-4 sm:px-6 py-16 bg-white">
-        <div className="max-w-7xl mx-auto">
-          <div className="flex items-end justify-between mb-10">
-            <div>
-              <p className="text-sm font-semibold text-blue-600 uppercase tracking-wider mb-1">
-                Para onde ir?
-              </p>
-              <h2 className="text-3xl font-bold text-slate-900">Destinos populares</h2>
-            </div>
-            <Link
-              href="/search"
-              className="hidden sm:flex items-center gap-1 text-sm font-medium text-blue-600 hover:text-blue-700 transition-colors"
-            >
-              Ver todos
-              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M9 5l7 7-7 7"
-                />
-              </svg>
-            </Link>
-          </div>
-
-          <div className="grid grid-cols-2 md:grid-cols-3 gap-4 md:[grid-template-rows:240px_240px]">
-            <Link
-              href={`/search?destination=${encodeURIComponent("Rio de Janeiro, RJ")}`}
-              className="group relative col-span-2 rounded-2xl overflow-hidden aspect-video md:aspect-auto md:row-span-2"
-            >
-              <Image
-                src="https://images.unsplash.com/photo-1483729558449-99ef09a8c325?w=1200&q=80"
-                alt="Rio de Janeiro"
-                fill
-                placeholder="blur"
-                blurDataURL={BLUR_DATA_URL}
-                className="object-cover transition-transform duration-700 group-hover:scale-105"
-                sizes="(max-width: 768px) 100vw, 66vw"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent" />
-              <div className="absolute bottom-0 left-0 p-5 md:p-7">
-                <span className="block text-xs font-semibold text-white/60 uppercase tracking-widest mb-1">
-                  Sudeste
-                </span>
-                <h3 className="text-xl md:text-3xl font-bold text-white leading-tight">
-                  Rio de Janeiro
-                </h3>
-                <p className="text-white/70 text-sm mt-1">3 hotéis disponíveis</p>
-              </div>
-            </Link>
-
-            <Link
-              href={`/search?destination=${encodeURIComponent("São Paulo, SP")}`}
-              className="group relative rounded-2xl overflow-hidden aspect-square md:aspect-auto"
-            >
-              <Image
-                src="https://upload.wikimedia.org/wikipedia/commons/d/d9/S%C3%A3o_Paulo_City.jpg"
-                alt="São Paulo"
-                fill
-                placeholder="blur"
-                blurDataURL={BLUR_DATA_URL}
-                className="object-cover transition-transform duration-700 group-hover:scale-105"
-                sizes="(max-width: 768px) 50vw, 33vw"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent" />
-              <div className="absolute bottom-0 left-0 p-4">
-                <h3 className="text-base md:text-lg font-bold text-white">São Paulo</h3>
-                <p className="text-white/65 text-xs mt-0.5">3 hotéis</p>
-              </div>
-            </Link>
-
-            <Link
-              href={`/search?destination=${encodeURIComponent("Florianópolis, SC")}`}
-              className="group relative rounded-2xl overflow-hidden aspect-square md:aspect-auto"
-            >
-              <Image
-                src="https://images.unsplash.com/photo-1564501049412-61c2a3083791?w=800&q=80"
-                alt="Florianópolis"
-                fill
-                placeholder="blur"
-                blurDataURL={BLUR_DATA_URL}
-                className="object-cover transition-transform duration-700 group-hover:scale-105"
-                sizes="(max-width: 768px) 50vw, 33vw"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent" />
-              <div className="absolute bottom-0 left-0 p-4">
-                <h3 className="text-base md:text-lg font-bold text-white">Florianópolis</h3>
-                <p className="text-white/65 text-xs mt-0.5">2 hotéis</p>
-              </div>
-            </Link>
-          </div>
-
-          <Link
-            href={`/search?destination=${encodeURIComponent("Gramado, RS")}`}
-            className="group relative mt-4 block rounded-2xl overflow-hidden h-36"
-          >
-            <Image
-              src="https://images.unsplash.com/photo-1571896349842-33c89424de2d?w=1600&q=80"
-              alt="Gramado"
-              fill
-              placeholder="blur"
-              blurDataURL={BLUR_DATA_URL}
-              className="object-cover object-bottom transition-transform duration-700 group-hover:scale-105"
-              sizes="100vw"
-            />
-            <div className="absolute inset-0 bg-gradient-to-r from-black/65 via-black/30 to-transparent" />
-            <div className="absolute inset-0 flex items-center px-6 md:px-10">
-              <div>
-                <span className="text-xs font-semibold text-white/60 uppercase tracking-widest">
-                  Sul do Brasil
-                </span>
-                <h3 className="text-xl md:text-2xl font-bold text-white mt-0.5">Gramado</h3>
-                <p className="text-white/65 text-xs mt-1">1 hotel disponível</p>
-              </div>
-            </div>
-          </Link>
         </div>
       </section>
 

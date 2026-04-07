@@ -59,7 +59,6 @@ export function Footer() {
                 { label: "Resorts", href: "/search?propertyType=resort" },
                 { label: "Pousadas", href: "/search?propertyType=pousada" },
                 { label: "Ofertas especiais", href: "/search?sortBy=price_asc" },
-                { label: "Destinos populares", href: "/search" },
               ].map((l) => (
                 <li key={l.href}>
                   <Link
