@@ -6,7 +6,7 @@ import { useLayoutEffect, useRef, useState } from "react"
 import { HotelCard, HotelCardSkeleton } from "@/components/hotel/hotel-card"
 import { HotelFilters } from "@/components/search/hotel-filters"
 import { HotelSortBar } from "@/components/search/hotel-sort-bar"
-import type { SortOption } from "@/hooks/use-hotel-filters"
+import type { SortOption } from "@/types/api"
 import { useHotelFilters } from "@/hooks/use-hotel-filters"
 import { hotelApi } from "@/lib/hotel-api"
 import type { Hotel } from "@/types/api"
@@ -18,6 +18,11 @@ function applyClientFilters(
   filters: ReturnType<typeof useHotelFilters>["filters"]
 ): Hotel[] {
   return hotels.filter((hotel) => {
+    if (
+      filters.destination &&
+      !hotel.destination.toLowerCase().includes(filters.destination.toLowerCase())
+    )
+      return false
     if (filters.propertyTypes.length > 0 && !filters.propertyTypes.includes(hotel.propertyType))
       return false
     if (

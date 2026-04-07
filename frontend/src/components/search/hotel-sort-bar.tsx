@@ -1,6 +1,6 @@
 "use client"
 
-import type { SortOption } from "@/hooks/use-hotel-filters"
+import type { SortOption } from "@/types/api"
 
 const SORT_OPTIONS: { value: SortOption; label: string }[] = [
   { value: "popular", label: "Mais popular" },

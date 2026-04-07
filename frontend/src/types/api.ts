@@ -108,10 +108,12 @@ export interface HotelSearchParams {
   minRating?: number
   amenities?: Amenity[]
   propertyType?: Hotel["propertyType"][]
-  sortBy?: "price_asc" | "price_desc" | "rating" | "popular"
+  sortBy?: SortOption
   page?: number
   limit?: number
 }
+
+export type SortOption = "price_asc" | "price_desc" | "rating" | "popular"
 
 export interface PaginatedResponse<T> {
   data: T[]

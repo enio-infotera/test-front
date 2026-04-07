@@ -5,11 +5,10 @@ import { useForm } from "react-hook-form"
 import { useToast } from "@/components/ui/toast"
 import type { PaymentValues, PersonalValues } from "@/lib/checkout-schema"
 import { paymentSchema, personalSchema } from "@/lib/checkout-schema"
+import { DISCOUNT_CODES, TAX_RATE } from "@/lib/constants"
 import { useBookingStore } from "@/store/booking-store"
 
 export type CheckoutStep = 1 | 2 | 3
-
-const TAX_RATE = 0.12
 
 const PAYMENT_ERROR_MESSAGES: Record<string, string> = {
   card_declined: "Cartão recusado. Verifique os dados ou tente outro cartão.",
@@ -59,11 +58,6 @@ export function useCheckout(pricePerNight: number, nights: number) {
   const taxes = Math.round(subtotal * TAX_RATE)
   const discount = Math.round(subtotal * appliedDiscount)
   const total = subtotal + taxes - discount
-
-  const DISCOUNT_CODES: Record<string, number> = {
-    DESCONTO10: 0.1,
-    PROMO20: 0.2,
-  }
 
   function applyDiscount(code: string) {
     const rate = DISCOUNT_CODES[code.toUpperCase()]

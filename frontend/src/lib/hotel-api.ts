@@ -15,7 +15,7 @@ export const hotelApi = {
       params ?? {}
 
     return api.get<Hotel[]>("/hotels", {
-      q: destination,
+      destination_like: destination,
       pricePerNight_gte: minPrice,
       pricePerNight_lte: maxPrice,
       rating_gte: minRating,

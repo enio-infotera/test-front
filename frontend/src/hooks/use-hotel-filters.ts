@@ -2,9 +2,7 @@
 
 import { useRouter, useSearchParams } from "next/navigation"
 import { useCallback, useMemo } from "react"
-import type { Amenity, Hotel, HotelSearchParams } from "@/types/api"
-
-export type SortOption = "price_asc" | "price_desc" | "rating" | "popular"
+import type { Amenity, Hotel, HotelSearchParams, SortOption } from "@/types/api"
 
 export interface HotelFilters {
   destination: string

@@ -1,5 +1,24 @@
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:3333"
 
+export class ApiError extends Error {
+  constructor(
+    public readonly status: number,
+    public readonly statusText: string,
+    message?: string
+  ) {
+    super(message ?? `API Error ${status}: ${statusText}`)
+    this.name = "ApiError"
+  }
+
+  get isNotFound() {
+    return this.status === 404
+  }
+
+  get isServerError() {
+    return this.status >= 500
+  }
+}
+
 type RequestOptions = Omit<RequestInit, "body"> & {
   params?: Record<string, string | number | boolean | undefined>
   body?: unknown
@@ -31,7 +50,7 @@ async function request<T>(path: string, options: RequestOptions = {}): Promise<T
   })
 
   if (!response.ok) {
-    throw new Error(`API Error ${response.status}: ${response.statusText}`)
+    throw new ApiError(response.status, response.statusText)
   }
 
   return response.json() as Promise<T>
