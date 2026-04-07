@@ -2,12 +2,16 @@
 
 import { useQuery } from "@tanstack/react-query"
 import Link from "next/link"
+import { HotelCard, HotelCardSkeleton } from "@/components/hotel/hotel-card"
 import { api } from "@/lib/api-client"
 import type { Hotel } from "@/types/api"
-import { HotelCard, HotelCardSkeleton } from "@/components/hotel/hotel-card"
 
 export function FeaturedHotels() {
-  const { data: hotels, isLoading, isError } = useQuery({
+  const {
+    data: hotels,
+    isLoading,
+    isError,
+  } = useQuery({
     queryKey: ["hotels", "featured"],
     queryFn: () => api.get<Hotel[]>("/hotels", { featured: true, _limit: 3 }),
     staleTime: 5 * 60 * 1000,
@@ -18,7 +22,9 @@ export function FeaturedHotels() {
       <div className="max-w-7xl mx-auto">
         <div className="flex items-end justify-between mb-10">
           <div>
-            <p className="text-sm font-semibold text-blue-600 uppercase tracking-wider mb-1">Selecionados para você</p>
+            <p className="text-sm font-semibold text-blue-600 uppercase tracking-wider mb-1">
+              Selecionados para você
+            </p>
             <h2 className="text-3xl font-bold text-slate-900">Hotéis em destaque</h2>
           </div>
           <Link

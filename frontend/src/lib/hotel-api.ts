@@ -8,8 +8,7 @@ const SORT_FIELD: Partial<Record<NonNullable<HotelSearchParams["sortBy"]>, strin
 }
 
 export const hotelApi = {
-  getSuggestions: (query: string) =>
-    api.get<Suggestion[]>("/suggestions", { q: query }),
+  getSuggestions: (query: string) => api.get<Suggestion[]>("/suggestions", { q: query }),
 
   getHotels: (params?: HotelSearchParams) => {
     const { destination, minPrice, maxPrice, minRating, propertyType, sortBy, page, limit } =
@@ -30,8 +29,7 @@ export const hotelApi = {
 
   getHotelById: (id: number) => api.get<Hotel>(`/hotels/${id}`),
 
-  getRoomsByHotel: (hotelId: number) =>
-    api.get<Room[]>("/rooms", { hotelId }),
+  getRoomsByHotel: (hotelId: number) => api.get<Room[]>("/rooms", { hotelId }),
 
   getReviewsByHotel: (hotelId: number, page?: number) =>
     api.get<Review[]>("/reviews", { hotelId, _page: page, _limit: 5 }),

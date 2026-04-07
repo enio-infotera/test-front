@@ -9,7 +9,12 @@ export function Footer() {
           <div>
             <div className="flex items-center gap-2 mb-4">
               <div className="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center">
-                <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <svg
+                  className="w-5 h-5 text-white"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
                   <path
                     strokeLinecap="round"
                     strokeLinejoin="round"
@@ -23,13 +28,16 @@ export function Footer() {
               </span>
             </div>
             <p className="text-sm text-slate-400 leading-relaxed">
-              Encontre e reserve o hotel ideal para cada momento da sua viagem com segurança e praticidade.
+              Encontre e reserve o hotel ideal para cada momento da sua viagem com segurança e
+              praticidade.
             </p>
             <div className="flex gap-3 mt-5">
               {["instagram", "facebook", "twitter"].map((s) => (
                 <a
                   key={s}
-                  href="#"
+                  href={`https://${s}.com`}
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className="w-9 h-9 rounded-lg bg-slate-800 hover:bg-blue-600 flex items-center justify-center transition-colors"
                   aria-label={s}
                 >
@@ -41,9 +49,10 @@ export function Footer() {
             </div>
           </div>
 
-          {/* Explorar */}
           <div>
-            <h3 className="text-sm font-semibold text-white uppercase tracking-widest mb-4">Explorar</h3>
+            <h3 className="text-sm font-semibold text-white uppercase tracking-widest mb-4">
+              Explorar
+            </h3>
             <ul className="space-y-2.5">
               {[
                 { label: "Hotéis", href: "/search" },
@@ -66,7 +75,9 @@ export function Footer() {
 
           {/* Suporte */}
           <div>
-            <h3 className="text-sm font-semibold text-white uppercase tracking-widest mb-4">Suporte</h3>
+            <h3 className="text-sm font-semibold text-white uppercase tracking-widest mb-4">
+              Suporte
+            </h3>
             <ul className="space-y-2.5">
               {[
                 "Central de ajuda",
@@ -76,9 +87,7 @@ export function Footer() {
                 "Privacidade",
               ].map((l) => (
                 <li key={l}>
-                  <a href="#" className="text-sm text-slate-400 hover:text-white transition-colors">
-                    {l}
-                  </a>
+                  <span className="text-sm text-slate-400 cursor-default">{l}</span>
                 </li>
               ))}
             </ul>
@@ -86,23 +95,55 @@ export function Footer() {
 
           {/* Contato */}
           <div>
-            <h3 className="text-sm font-semibold text-white uppercase tracking-widest mb-4">Contato</h3>
+            <h3 className="text-sm font-semibold text-white uppercase tracking-widest mb-4">
+              Contato
+            </h3>
             <ul className="space-y-3">
               <li className="flex items-start gap-3">
-                <svg className="w-4 h-4 text-blue-400 mt-0.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                <svg
+                  className="w-4 h-4 text-blue-400 mt-0.5 shrink-0"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
+                  />
                 </svg>
                 <span className="text-sm text-slate-400">contato@hotelbook.com.br</span>
               </li>
               <li className="flex items-start gap-3">
-                <svg className="w-4 h-4 text-blue-400 mt-0.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
+                <svg
+                  className="w-4 h-4 text-blue-400 mt-0.5 shrink-0"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"
+                  />
                 </svg>
                 <span className="text-sm text-slate-400">0800 123 4567</span>
               </li>
               <li className="flex items-start gap-3">
-                <svg className="w-4 h-4 text-blue-400 mt-0.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                <svg
+                  className="w-4 h-4 text-blue-400 mt-0.5 shrink-0"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
+                  />
                 </svg>
                 <span className="text-sm text-slate-400">Suporte 24h por dia</span>
               </li>

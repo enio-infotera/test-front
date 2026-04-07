@@ -35,18 +35,18 @@ function formatExpiry(raw: string) {
 
 function Field({
   label,
+  id,
   error,
   children,
 }: {
   label: string
+  id: string
   error?: string
   children: React.ReactNode
 }) {
   return (
     <div>
-      <label className="mb-1 block text-sm font-medium text-gray-700">
-        {label}
-      </label>
+      <label htmlFor={id} className="mb-1 block text-sm font-medium text-gray-700">{label}</label>
       {children}
       {error && <p className="mt-1 text-xs text-red-600">{error}</p>}
     </div>
@@ -71,9 +71,7 @@ export function PaymentStep({
   } = form
 
   const [discountInput, setDiscountInput] = useState("")
-  const [discountFeedback, setDiscountFeedback] = useState<
-    "idle" | "ok" | "error"
-  >("idle")
+  const [discountFeedback, setDiscountFeedback] = useState<"idle" | "ok" | "error">("idle")
 
   const discountCode = watch("discountCode")
 
@@ -89,24 +87,16 @@ export function PaymentStep({
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
       <div className="rounded-xl border border-gray-200 bg-gray-50 p-4">
-        <h3 className="mb-4 text-sm font-semibold text-gray-700">
-          Dados do cartão
-        </h3>
+        <h3 className="mb-4 text-sm font-semibold text-gray-700">Dados do cartão</h3>
 
         <div className="space-y-4">
-          <Field label="Nome no cartão" error={errors.cardHolder?.message}>
-            <input
-              {...register("cardHolder")}
-              placeholder="JOÃO SILVA"
-              className={inputClass}
-            />
+          <Field label="Nome no cartão" id="cardHolder" error={errors.cardHolder?.message}>
+            <input id="cardHolder" {...register("cardHolder")} placeholder="JOÃO SILVA" className={inputClass} />
           </Field>
 
-          <Field
-            label="Número do cartão"
-            error={errors.cardNumber?.message}
-          >
+          <Field label="Número do cartão" id="cardNumber" error={errors.cardNumber?.message}>
             <input
+              id="cardNumber"
               {...register("cardNumber")}
               placeholder="0000 0000 0000 0000"
               className={inputClass}
@@ -120,8 +110,9 @@ export function PaymentStep({
           </Field>
 
           <div className="grid grid-cols-2 gap-4">
-            <Field label="Validade" error={errors.expiry?.message}>
+            <Field label="Validade" id="expiry" error={errors.expiry?.message}>
               <input
+                id="expiry"
                 {...register("expiry")}
                 placeholder="MM/AA"
                 className={inputClass}
@@ -134,8 +125,9 @@ export function PaymentStep({
               />
             </Field>
 
-            <Field label="CVV" error={errors.cvv?.message}>
+            <Field label="CVV" id="cvv" error={errors.cvv?.message}>
               <input
+                id="cvv"
                 {...register("cvv")}
                 placeholder="123"
                 className={inputClass}
@@ -152,9 +144,7 @@ export function PaymentStep({
       </div>
 
       <div className="rounded-xl border border-gray-200 p-4">
-        <h3 className="mb-3 text-sm font-semibold text-gray-700">
-          Cupom de desconto
-        </h3>
+        <h3 className="mb-3 text-sm font-semibold text-gray-700">Cupom de desconto</h3>
         <div className="flex gap-2">
           <input
             value={discountInput}
@@ -176,9 +166,7 @@ export function PaymentStep({
           </button>
         </div>
         {discountFeedback === "ok" && (
-          <p className="mt-1 text-xs text-green-600">
-            Cupom aplicado com sucesso!
-          </p>
+          <p className="mt-1 text-xs text-green-600">Cupom aplicado com sucesso!</p>
         )}
         {discountFeedback === "error" && (
           <p className="mt-1 text-xs text-red-600">Cupom inválido.</p>

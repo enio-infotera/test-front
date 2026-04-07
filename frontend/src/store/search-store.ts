@@ -53,9 +53,7 @@ export const useSearchStore = create<SearchStore>()(
             ...params,
             searchedAt: new Date().toISOString(),
           }
-          const filtered = state.recentSearches.filter(
-            (s) => s.destination !== params.destination
-          )
+          const filtered = state.recentSearches.filter((s) => s.destination !== params.destination)
           return { recentSearches: [entry, ...filtered].slice(0, 5) }
         }),
 

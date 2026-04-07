@@ -1,7 +1,7 @@
 "use client"
 
+import type { ErrorInfo, ReactNode } from "react"
 import { Component } from "react"
-import type { ReactNode, ErrorInfo } from "react"
 
 interface Props {
   children: ReactNode
@@ -36,24 +36,13 @@ export class ErrorBoundary extends Component<Props, State> {
   render() {
     if (this.state.hasError) {
       if (this.props.fallback) return this.props.fallback
-      return (
-        <DefaultErrorFallback
-          error={this.state.error}
-          reset={() => this.reset()}
-        />
-      )
+      return <DefaultErrorFallback error={this.state.error} reset={() => this.reset()} />
     }
     return this.props.children
   }
 }
 
-function DefaultErrorFallback({
-  error,
-  reset,
-}: {
-  error: Error | null
-  reset: () => void
-}) {
+function DefaultErrorFallback({ error, reset }: { error: Error | null; reset: () => void }) {
   return (
     <div className="flex flex-col items-center justify-center py-16 px-4 text-center">
       <div className="mb-4 flex h-14 w-14 items-center justify-center rounded-full bg-red-50">
@@ -72,12 +61,8 @@ function DefaultErrorFallback({
           />
         </svg>
       </div>
-      <h3 className="mb-1 text-base font-semibold text-gray-900">
-        Algo deu errado
-      </h3>
-      {error?.message && (
-        <p className="mb-4 text-sm text-gray-500">{error.message}</p>
-      )}
+      <h3 className="mb-1 text-base font-semibold text-gray-900">Algo deu errado</h3>
+      {error?.message && <p className="mb-4 text-sm text-gray-500">{error.message}</p>}
       <button
         onClick={reset}
         className="rounded-xl bg-blue-600 px-5 py-2.5 text-sm font-semibold text-white hover:bg-blue-700 transition-colors"

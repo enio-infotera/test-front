@@ -1,11 +1,11 @@
-import { useState } from "react"
-import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useRouter } from "next/navigation"
-import { personalSchema, paymentSchema } from "@/lib/checkout-schema"
-import type { PersonalValues, PaymentValues } from "@/lib/checkout-schema"
-import { useBookingStore } from "@/store/booking-store"
+import { useState } from "react"
+import { useForm } from "react-hook-form"
 import { useToast } from "@/components/ui/toast"
+import type { PaymentValues, PersonalValues } from "@/lib/checkout-schema"
+import { paymentSchema, personalSchema } from "@/lib/checkout-schema"
+import { useBookingStore } from "@/store/booking-store"
 
 export type CheckoutStep = 1 | 2 | 3
 
@@ -18,7 +18,18 @@ const PAYMENT_ERROR_MESSAGES: Record<string, string> = {
 }
 
 function simulatePaymentError(): string | null {
-  const outcomes = [null, null, null, null, null, null, null, "card_declined", "insufficient_funds", "generic_error"]
+  const outcomes = [
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    "card_declined",
+    "insufficient_funds",
+    "generic_error",
+  ]
   return outcomes[Math.floor(Math.random() * outcomes.length)]
 }
 

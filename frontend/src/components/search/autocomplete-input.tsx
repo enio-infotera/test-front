@@ -104,18 +104,12 @@ export function AutocompleteInput({
           placeholder={placeholder}
           autoComplete="off"
           className={`w-full pl-10 pr-10 py-3 rounded-lg border text-sm bg-white transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 ${
-            error
-              ? "border-red-400 focus:ring-red-400"
-              : "border-gray-200 hover:border-gray-300"
+            error ? "border-red-400 focus:ring-red-400" : "border-gray-200 hover:border-gray-300"
           }`}
         />
         {isFetching && (
           <span className="absolute right-3 top-1/2 -translate-y-1/2">
-            <svg
-              className="w-4 h-4 animate-spin text-blue-500"
-              fill="none"
-              viewBox="0 0 24 24"
-            >
+            <svg className="w-4 h-4 animate-spin text-blue-500" fill="none" viewBox="0 0 24 24">
               <circle
                 className="opacity-25"
                 cx="12"

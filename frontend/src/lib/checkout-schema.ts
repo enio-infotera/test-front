@@ -36,10 +36,7 @@ export const personalSchema = z.object({
   firstName: z.string().min(2, "Nome muito curto"),
   lastName: z.string().min(2, "Sobrenome muito curto"),
   email: z.string().email("E-mail inválido"),
-  phone: z
-    .string()
-    .min(10, "Telefone inválido")
-    .regex(/^\d+$/, "Apenas números"),
+  phone: z.string().min(10, "Telefone inválido").regex(/^\d+$/, "Apenas números"),
   document: z
     .string()
     .min(11, "CPF inválido")
@@ -50,16 +47,12 @@ export const personalSchema = z.object({
 
 export const paymentSchema = z.object({
   cardHolder: z.string().min(3, "Nome inválido"),
-  cardNumber: z
-    .string()
-    .regex(/^\d{16}$/, "Número deve ter 16 dígitos"),
+  cardNumber: z.string().regex(/^\d{16}$/, "Número deve ter 16 dígitos"),
   expiry: z
     .string()
     .regex(/^\d{2}\/\d{2}$/, "Formato MM/AA")
     .refine((v) => !isCardExpired(v), "Cartão expirado"),
-  cvv: z
-    .string()
-    .regex(/^\d{3,4}$/, "CVV inválido"),
+  cvv: z.string().regex(/^\d{3,4}$/, "CVV inválido"),
   discountCode: z.string().optional(),
 })
 

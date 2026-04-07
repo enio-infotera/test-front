@@ -1,9 +1,9 @@
 import type { Metadata } from "next"
 import { Geist } from "next/font/google"
-import { Header } from "@/components/layout/header"
 import { Footer } from "@/components/layout/footer"
-import { QueryProvider } from "@/lib/query-provider"
+import { Header } from "@/components/layout/header"
 import { ToastProvider } from "@/components/ui/toast"
+import { QueryProvider } from "@/lib/query-provider"
 import "./globals.css"
 
 const geistSans = Geist({

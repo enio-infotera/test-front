@@ -3,12 +3,12 @@
 import { useQuery } from "@tanstack/react-query"
 import Image from "next/image"
 import Link from "next/link"
-import { useState } from "react"
 import { useSearchParams } from "next/navigation"
-import { hotelApi } from "@/lib/hotel-api"
+import { useState } from "react"
 import { PhotoGallery } from "@/components/hotel/photo-gallery"
-import { RoomCard, RoomCardSkeleton } from "@/components/hotel/room-card"
 import { ReviewsSection } from "@/components/hotel/reviews-section"
+import { RoomCard, RoomCardSkeleton } from "@/components/hotel/room-card"
+import { hotelApi } from "@/lib/hotel-api"
 import { BLUR_DATA_URL } from "@/lib/image-placeholder"
 import { useSearchStore } from "@/store/search-store"
 import type { Amenity, Hotel } from "@/types/api"
@@ -30,10 +30,25 @@ const AMENITY_LABELS: Partial<Record<Amenity, string>> = {
   breakfast: "Café da manhã",
 }
 
-const CANCELLATION_CONFIG: Record<Hotel["cancellationPolicy"], { label: string; color: string; description: string }> = {
-  free: { label: "Cancelamento grátis", color: "text-green-600 bg-green-50 border-green-200", description: "Cancele sem custo até 24h antes do check-in." },
-  moderate: { label: "Cancelamento moderado", color: "text-yellow-700 bg-yellow-50 border-yellow-200", description: "Reembolso parcial até 5 dias antes do check-in." },
-  strict: { label: "Não reembolsável", color: "text-red-600 bg-red-50 border-red-200", description: "Esta reserva não pode ser cancelada após a confirmação." },
+const CANCELLATION_CONFIG: Record<
+  Hotel["cancellationPolicy"],
+  { label: string; color: string; description: string }
+> = {
+  free: {
+    label: "Cancelamento grátis",
+    color: "text-green-600 bg-green-50 border-green-200",
+    description: "Cancele sem custo até 24h antes do check-in.",
+  },
+  moderate: {
+    label: "Cancelamento moderado",
+    color: "text-yellow-700 bg-yellow-50 border-yellow-200",
+    description: "Reembolso parcial até 5 dias antes do check-in.",
+  },
+  strict: {
+    label: "Não reembolsável",
+    color: "text-red-600 bg-red-50 border-red-200",
+    description: "Esta reserva não pode ser cancelada após a confirmação.",
+  },
 }
 
 const PROPERTY_TYPE_LABELS: Record<Hotel["propertyType"], string> = {
@@ -135,7 +150,9 @@ export function HotelDetailContent({ hotelId }: HotelDetailContentProps) {
 
   const checkIn = searchParams.get("checkIn") || lastSearch?.checkIn || ""
   const checkOut = searchParams.get("checkOut") || lastSearch?.checkOut || ""
-  const guests = Number(searchParams.get("adults") ?? lastSearch?.adults ?? 2) + Number(searchParams.get("children") ?? lastSearch?.children ?? 0)
+  const guests =
+    Number(searchParams.get("adults") ?? lastSearch?.adults ?? 2) +
+    Number(searchParams.get("children") ?? lastSearch?.children ?? 0)
   const rooms = Number(searchParams.get("rooms") ?? lastSearch?.rooms ?? 1)
   const [copied, setCopied] = useState(false)
 
@@ -146,7 +163,11 @@ export function HotelDetailContent({ hotelId }: HotelDetailContentProps) {
     })
   }
 
-  const { data: hotel, isLoading: hotelLoading, isError: hotelError } = useQuery({
+  const {
+    data: hotel,
+    isLoading: hotelLoading,
+    isError: hotelError,
+  } = useQuery({
     queryKey: ["hotel", hotelId],
     queryFn: () => hotelApi.getHotelById(hotelId),
     staleTime: 5 * 60 * 1000,
@@ -176,7 +197,10 @@ export function HotelDetailContent({ hotelId }: HotelDetailContentProps) {
     return (
       <div className="flex flex-col items-center justify-center py-24 text-center">
         <p className="text-slate-600 mb-4">Não foi possível carregar o hotel.</p>
-        <Link href="/search" className="px-5 py-2.5 bg-blue-600 text-white text-sm font-semibold rounded-xl hover:bg-blue-700 transition-colors">
+        <Link
+          href="/search"
+          className="px-5 py-2.5 bg-blue-600 text-white text-sm font-semibold rounded-xl hover:bg-blue-700 transition-colors"
+        >
           Voltar para busca
         </Link>
       </div>
@@ -193,9 +217,14 @@ export function HotelDetailContent({ hotelId }: HotelDetailContentProps) {
     <main className="flex-1 bg-white">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 py-8">
         <nav className="flex items-center gap-2 text-sm text-slate-400 mb-6">
-          <Link href="/" className="hover:text-blue-600 transition-colors">Início</Link>
+          <Link href="/" className="hover:text-blue-600 transition-colors">
+            Início
+          </Link>
           <span>›</span>
-          <Link href={`/search?destination=${encodeURIComponent(hotel.destination)}`} className="hover:text-blue-600 transition-colors">
+          <Link
+            href={`/search?destination=${encodeURIComponent(hotel.destination)}`}
+            className="hover:text-blue-600 transition-colors"
+          >
             {hotel.destination}
           </Link>
           <span>›</span>
@@ -217,11 +246,14 @@ export function HotelDetailContent({ hotelId }: HotelDetailContentProps) {
                     </span>
                     {hotel.availableRooms <= 3 && (
                       <span className="px-2.5 py-1 text-xs font-semibold text-orange-700 bg-orange-100 rounded-full">
-                        Apenas {hotel.availableRooms} {hotel.availableRooms === 1 ? "quarto disponível" : "quartos disponíveis"}!
+                        Apenas {hotel.availableRooms}{" "}
+                        {hotel.availableRooms === 1 ? "quarto disponível" : "quartos disponíveis"}!
                       </span>
                     )}
                   </div>
-                  <h1 className="text-2xl md:text-3xl font-extrabold text-slate-900">{hotel.name}</h1>
+                  <h1 className="text-2xl md:text-3xl font-extrabold text-slate-900">
+                    {hotel.name}
+                  </h1>
                 </div>
                 <button
                   type="button"
@@ -231,15 +263,35 @@ export function HotelDetailContent({ hotelId }: HotelDetailContentProps) {
                 >
                   {copied ? (
                     <>
-                      <svg className="w-4 h-4 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                      <svg
+                        className="w-4 h-4 text-green-500"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M5 13l4 4L19 7"
+                        />
                       </svg>
                       <span className="text-green-600 text-xs">Copiado!</span>
                     </>
                   ) : (
                     <>
-                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z" />
+                      <svg
+                        className="w-4 h-4"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z"
+                        />
                       </svg>
                       <span className="text-xs">Compartilhar</span>
                     </>
@@ -250,13 +302,30 @@ export function HotelDetailContent({ hotelId }: HotelDetailContentProps) {
               <div className="flex items-center gap-3 mb-3">
                 <StarRating value={hotel.rating} />
                 <span className="font-semibold text-slate-800">{hotel.rating.toFixed(1)}</span>
-                <span className="text-slate-400 text-sm">({hotel.reviewCount.toLocaleString("pt-BR")} avaliações)</span>
+                <span className="text-slate-400 text-sm">
+                  ({hotel.reviewCount.toLocaleString("pt-BR")} avaliações)
+                </span>
               </div>
 
               <p className="flex items-center gap-1.5 text-sm text-slate-500 mb-4">
-                <svg className="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                <svg
+                  className="w-4 h-4 shrink-0"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"
+                  />
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"
+                  />
                 </svg>
                 {hotel.address}
               </p>
@@ -271,9 +340,22 @@ export function HotelDetailContent({ hotelId }: HotelDetailContentProps) {
                   const label = AMENITY_LABELS[a]
                   if (!label) return null
                   return (
-                    <div key={a} className="flex items-center gap-2 px-3 py-2 bg-slate-50 rounded-xl text-sm text-slate-700">
-                      <svg className="w-4 h-4 text-blue-500 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                    <div
+                      key={a}
+                      className="flex items-center gap-2 px-3 py-2 bg-slate-50 rounded-xl text-sm text-slate-700"
+                    >
+                      <svg
+                        className="w-4 h-4 text-blue-500 shrink-0"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M5 13l4 4L19 7"
+                        />
                       </svg>
                       {label}
                     </div>
@@ -297,10 +379,11 @@ export function HotelDetailContent({ hotelId }: HotelDetailContentProps) {
                         guests={guests}
                         rooms={rooms}
                       />
-                    ))
-                }
+                    ))}
                 {!roomsLoading && roomList.length === 0 && (
-                  <p className="text-slate-400 text-sm py-4 text-center">Nenhum quarto disponível.</p>
+                  <p className="text-slate-400 text-sm py-4 text-center">
+                    Nenhum quarto disponível.
+                  </p>
                 )}
               </div>
             </section>
@@ -310,9 +393,24 @@ export function HotelDetailContent({ hotelId }: HotelDetailContentProps) {
             <section>
               <h2 className="text-xl font-bold text-slate-900 mb-4">Localização</h2>
               <p className="flex items-center gap-1.5 text-sm text-slate-500 mb-3">
-                <svg className="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                <svg
+                  className="w-4 h-4 shrink-0"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"
+                  />
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"
+                  />
                 </svg>
                 {hotel.address}
               </p>
@@ -351,18 +449,25 @@ export function HotelDetailContent({ hotelId }: HotelDetailContentProps) {
               <div className="bg-white rounded-2xl border border-gray-200 shadow-sm p-5">
                 <p className="text-xs text-slate-400 mb-1">A partir de</p>
                 <p className="text-3xl font-extrabold text-slate-900 mb-1">
-                  {hotel.pricePerNight.toLocaleString("pt-BR", { style: "currency", currency: "BRL" })}
+                  {hotel.pricePerNight.toLocaleString("pt-BR", {
+                    style: "currency",
+                    currency: "BRL",
+                  })}
                 </p>
                 <p className="text-sm text-slate-400 mb-5">por noite</p>
 
                 <div className="flex gap-2 text-sm text-slate-600 mb-4">
                   <div className="flex-1 border border-gray-200 rounded-xl px-3 py-2.5">
                     <p className="text-xs text-slate-400">Check-in</p>
-                    <p className="font-medium">{checkIn ? new Date(checkIn + "T12:00").toLocaleDateString("pt-BR") : "—"}</p>
+                    <p className="font-medium">
+                      {checkIn ? new Date(checkIn + "T12:00").toLocaleDateString("pt-BR") : "—"}
+                    </p>
                   </div>
                   <div className="flex-1 border border-gray-200 rounded-xl px-3 py-2.5">
                     <p className="text-xs text-slate-400">Check-out</p>
-                    <p className="font-medium">{checkOut ? new Date(checkOut + "T12:00").toLocaleDateString("pt-BR") : "—"}</p>
+                    <p className="font-medium">
+                      {checkOut ? new Date(checkOut + "T12:00").toLocaleDateString("pt-BR") : "—"}
+                    </p>
                   </div>
                 </div>
 

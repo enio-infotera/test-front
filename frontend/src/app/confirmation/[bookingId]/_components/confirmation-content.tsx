@@ -1,9 +1,9 @@
 "use client"
 
-import { useEffect, useState } from "react"
 import { useRouter } from "next/navigation"
-import { useBookingStore } from "@/store/booking-store"
+import { useEffect, useState } from "react"
 import { useToast } from "@/components/ui/toast"
+import { useBookingStore } from "@/store/booking-store"
 
 function CheckIcon() {
   return (
@@ -71,15 +71,7 @@ function formatDate(iso: string) {
   })
 }
 
-function SummaryRow({
-  label,
-  value,
-  bold,
-}: {
-  label: string
-  value: string
-  bold?: boolean
-}) {
+function SummaryRow({ label, value, bold }: { label: string; value: string; bold?: boolean }) {
   return (
     <div
       className={`flex justify-between text-sm ${bold ? "font-semibold text-gray-900" : "text-gray-600"}`}
@@ -101,12 +93,10 @@ function NotFoundState() {
       <div className="mb-6 flex justify-center">
         <AlertIcon />
       </div>
-      <h1 className="mb-2 text-2xl font-bold text-gray-900">
-        Reserva não encontrada
-      </h1>
+      <h1 className="mb-2 text-2xl font-bold text-gray-900">Reserva não encontrada</h1>
       <p className="mb-6 text-gray-500">
-        Não encontramos os dados desta reserva. Isso pode ter ocorrido porque a
-        sessão expirou ou você acessou este link diretamente.
+        Não encontramos os dados desta reserva. Isso pode ter ocorrido porque a sessão expirou ou
+        você acessou este link diretamente.
       </p>
       <div className="flex flex-col gap-3 sm:flex-row sm:justify-center">
         <button
@@ -143,8 +133,7 @@ export function ConfirmationContent({ bookingId }: ConfirmationContentProps) {
   }
 
   const { hotel, room, checkIn, checkOut, guests, rooms } = selection
-  const { subtotal, taxes, discount, discountRate, total, nights } =
-    bookingDetails
+  const { subtotal, taxes, discount, discountRate, total, nights } = bookingDetails
 
   function copyBookingId() {
     navigator.clipboard.writeText(bookingId).then(() => {
@@ -160,12 +149,8 @@ export function ConfirmationContent({ bookingId }: ConfirmationContentProps) {
         <div className="mb-4 flex justify-center">
           <CheckIcon />
         </div>
-        <h1 className="mb-2 text-3xl font-bold text-gray-900">
-          Reserva confirmada!
-        </h1>
-        <p className="text-gray-500">
-          Em breve você receberá um e-mail com todos os detalhes.
-        </p>
+        <h1 className="mb-2 text-3xl font-bold text-gray-900">Reserva confirmada!</h1>
+        <p className="text-gray-500">Em breve você receberá um e-mail com todos os detalhes.</p>
       </div>
 
       <div className="mb-4 flex items-center justify-between rounded-2xl border border-blue-100 bg-blue-50 px-5 py-4">
@@ -186,19 +171,14 @@ export function ConfirmationContent({ bookingId }: ConfirmationContentProps) {
       </div>
 
       <div className="mb-4 rounded-2xl border border-gray-200 bg-white p-6 shadow-sm">
-        <h2 className="mb-4 text-sm font-semibold text-gray-700">
-          Detalhes da hospedagem
-        </h2>
+        <h2 className="mb-4 text-sm font-semibold text-gray-700">Detalhes da hospedagem</h2>
         <div className="space-y-2.5 text-sm">
           <SummaryRow label="Hotel" value={hotel.name} />
           <SummaryRow label="Quarto" value={room.name} />
           <SummaryRow label="Destino" value={hotel.destination} />
           <SummaryRow label="Check-in" value={formatDate(checkIn)} />
           <SummaryRow label="Check-out" value={formatDate(checkOut)} />
-          <SummaryRow
-            label="Duração"
-            value={`${nights} noite${nights > 1 ? "s" : ""}`}
-          />
+          <SummaryRow label="Duração" value={`${nights} noite${nights > 1 ? "s" : ""}`} />
           <SummaryRow
             label="Hóspedes"
             value={`${guests} hóspede${guests > 1 ? "s" : ""}, ${rooms} quarto${rooms > 1 ? "s" : ""}`}
@@ -207,9 +187,7 @@ export function ConfirmationContent({ bookingId }: ConfirmationContentProps) {
       </div>
 
       <div className="mb-8 rounded-2xl border border-gray-200 bg-white p-6 shadow-sm">
-        <h2 className="mb-4 text-sm font-semibold text-gray-700">
-          Valores pagos
-        </h2>
+        <h2 className="mb-4 text-sm font-semibold text-gray-700">Valores pagos</h2>
         <div className="space-y-2 text-sm">
           <SummaryRow
             label={`R$ ${room.pricePerNight.toFixed(2)} × ${nights} noite${nights > 1 ? "s" : ""}`}
@@ -223,11 +201,7 @@ export function ConfirmationContent({ bookingId }: ConfirmationContentProps) {
           )}
           <SummaryRow label="Taxas e encargos (12%)" value={`R$ ${taxes.toFixed(2)}`} />
           <div className="border-t border-gray-100 pt-2">
-            <SummaryRow
-              label="Total pago"
-              value={`R$ ${total.toFixed(2)}`}
-              bold
-            />
+            <SummaryRow label="Total pago" value={`R$ ${total.toFixed(2)}`} bold />
           </div>
         </div>
       </div>
@@ -249,4 +223,3 @@ export function ConfirmationContent({ bookingId }: ConfirmationContentProps) {
     </div>
   )
 }
-

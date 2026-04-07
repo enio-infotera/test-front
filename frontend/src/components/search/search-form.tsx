@@ -73,7 +73,7 @@ export function SearchForm() {
 
         <GuestsSelector
           adults={adults}
-          children={children}
+          kidsCount={children}
           rooms={rooms}
           onAdultsChange={(v) => setValue("adults", v)}
           onChildrenChange={(v) => setValue("children", v)}

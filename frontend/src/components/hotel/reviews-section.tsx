@@ -1,8 +1,8 @@
 "use client"
 
+import { useQuery } from "@tanstack/react-query"
 import Image from "next/image"
 import { useState } from "react"
-import { useQuery } from "@tanstack/react-query"
 import { hotelApi } from "@/lib/hotel-api"
 import type { Review } from "@/types/api"
 
@@ -40,7 +40,11 @@ function ReviewCard({ review }: { review: Review }) {
             {review.verified && (
               <span className="flex items-center gap-1 text-xs text-green-600">
                 <svg className="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 20 20">
-                  <path fillRule="evenodd" d="M6.267 3.455a3.066 3.066 0 001.745-.723 3.066 3.066 0 013.976 0 3.066 3.066 0 001.745.723 3.066 3.066 0 012.812 2.812c.051.643.304 1.254.723 1.745a3.066 3.066 0 010 3.976 3.066 3.066 0 00-.723 1.745 3.066 3.066 0 01-2.812 2.812 3.066 3.066 0 00-1.745.723 3.066 3.066 0 01-3.976 0 3.066 3.066 0 00-1.745-.723 3.066 3.066 0 01-2.812-2.812 3.066 3.066 0 00-.723-1.745 3.066 3.066 0 010-3.976 3.066 3.066 0 00.723-1.745 3.066 3.066 0 012.812-2.812zm7.44 5.252a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+                  <path
+                    fillRule="evenodd"
+                    d="M6.267 3.455a3.066 3.066 0 001.745-.723 3.066 3.066 0 013.976 0 3.066 3.066 0 001.745.723 3.066 3.066 0 012.812 2.812c.051.643.304 1.254.723 1.745a3.066 3.066 0 010 3.976 3.066 3.066 0 00-.723 1.745 3.066 3.066 0 01-2.812 2.812 3.066 3.066 0 00-1.745.723 3.066 3.066 0 01-3.976 0 3.066 3.066 0 00-1.745-.723 3.066 3.066 0 01-2.812-2.812 3.066 3.066 0 00-.723-1.745 3.066 3.066 0 010-3.976 3.066 3.066 0 00.723-1.745 3.066 3.066 0 012.812-2.812zm7.44 5.252a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                    clipRule="evenodd"
+                  />
                 </svg>
                 Verificado
               </span>
@@ -59,9 +63,7 @@ function ReviewCard({ review }: { review: Review }) {
       <p className="text-slate-500 text-sm leading-relaxed">{review.comment}</p>
 
       {review.helpful > 0 && (
-        <p className="mt-3 text-xs text-slate-400">
-          {review.helpful} pessoas acharam útil
-        </p>
+        <p className="mt-3 text-xs text-slate-400">{review.helpful} pessoas acharam útil</p>
       )}
     </div>
   )
@@ -101,14 +103,15 @@ export function ReviewsSection({ hotelId, total }: { hotelId: number; total: num
     <section>
       <h2 className="text-xl font-bold text-slate-900 mb-5">
         Avaliações
-        <span className="ml-2 text-base font-normal text-slate-400">({total.toLocaleString("pt-BR")})</span>
+        <span className="ml-2 text-base font-normal text-slate-400">
+          ({total.toLocaleString("pt-BR")})
+        </span>
       </h2>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         {isLoading
           ? Array.from({ length: 4 }).map((_, i) => <ReviewCardSkeleton key={i} />)
-          : reviews.map((r) => <ReviewCard key={r.id} review={r} />)
-        }
+          : reviews.map((r) => <ReviewCard key={r.id} review={r} />)}
       </div>
 
       {!isLoading && (

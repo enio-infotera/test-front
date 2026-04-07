@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from "react"
 
 interface GuestsSelectorProps {
   adults: number
-  children: number
+  kidsCount: number
   rooms: number
   onAdultsChange: (v: number) => void
   onChildrenChange: (v: number) => void
@@ -46,12 +46,7 @@ function Counter({ label, description, value, min, max, onChange }: CounterProps
           className="w-8 h-8 rounded-full border border-gray-300 flex items-center justify-center text-gray-600 hover:bg-gray-50 disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
         >
           <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={2}
-              d="M12 4v16m8-8H4"
-            />
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
           </svg>
         </button>
       </div>
@@ -61,7 +56,7 @@ function Counter({ label, description, value, min, max, onChange }: CounterProps
 
 export function GuestsSelector({
   adults,
-  children,
+  kidsCount,
   rooms,
   onAdultsChange,
   onChildrenChange,
@@ -80,7 +75,7 @@ export function GuestsSelector({
     return () => document.removeEventListener("mousedown", handleClickOutside)
   }, [])
 
-  const totalGuests = adults + children
+  const totalGuests = adults + kidsCount
   const label = `${totalGuests} hóspede${totalGuests !== 1 ? "s" : ""}, ${rooms} quarto${rooms !== 1 ? "s" : ""}`
 
   return (
@@ -125,7 +120,7 @@ export function GuestsSelector({
             <Counter
               label="Crianças"
               description="0–12 anos"
-              value={children}
+              value={kidsCount}
               min={0}
               max={10}
               onChange={onChildrenChange}

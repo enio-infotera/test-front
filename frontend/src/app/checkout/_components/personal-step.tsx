@@ -1,12 +1,11 @@
 "use client"
 
-import { useFieldArray } from "react-hook-form"
 import type { UseFormReturn } from "react-hook-form"
+import { useFieldArray } from "react-hook-form"
 import type { PersonalValues } from "@/lib/checkout-schema"
 
 interface PersonalStepProps {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  form: UseFormReturn<PersonalValues, any, any>
+  form: UseFormReturn<PersonalValues>
   onSubmit: (values: PersonalValues) => void
   totalGuests?: number
 }
@@ -15,8 +14,7 @@ function formatPhone(raw: string) {
   const digits = raw.replace(/\D/g, "").slice(0, 11)
   if (digits.length <= 2) return `(${digits}`
   if (digits.length <= 7) return `(${digits.slice(0, 2)}) ${digits.slice(2)}`
-  if (digits.length <= 11)
-    return `(${digits.slice(0, 2)}) ${digits.slice(2, 7)}-${digits.slice(7)}`
+  if (digits.length <= 11) return `(${digits.slice(0, 2)}) ${digits.slice(2, 7)}-${digits.slice(7)}`
   return digits
 }
 
@@ -24,23 +22,24 @@ function formatCpf(raw: string) {
   const digits = raw.replace(/\D/g, "").slice(0, 11)
   if (digits.length <= 3) return digits
   if (digits.length <= 6) return `${digits.slice(0, 3)}.${digits.slice(3)}`
-  if (digits.length <= 9)
-    return `${digits.slice(0, 3)}.${digits.slice(3, 6)}.${digits.slice(6)}`
+  if (digits.length <= 9) return `${digits.slice(0, 3)}.${digits.slice(3, 6)}.${digits.slice(6)}`
   return `${digits.slice(0, 3)}.${digits.slice(3, 6)}.${digits.slice(6, 9)}-${digits.slice(9)}`
 }
 
 function Field({
   label,
+  id,
   error,
   children,
 }: {
   label: string
+  id: string
   error?: string
   children: React.ReactNode
 }) {
   return (
     <div>
-      <label className="mb-1 block text-sm font-medium text-gray-700">
+      <label htmlFor={id} className="mb-1 block text-sm font-medium text-gray-700">
         {label}
       </label>
       {children}
@@ -72,24 +71,33 @@ export function PersonalStep({ form, onSubmit, totalGuests = 1 }: PersonalStepPr
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
       <div>
         <h3 className="text-sm font-semibold text-gray-700 mb-4 flex items-center gap-2">
-          <span className="flex h-6 w-6 items-center justify-center rounded-full bg-blue-600 text-white text-xs">1</span>
+          <span className="flex h-6 w-6 items-center justify-center rounded-full bg-blue-600 text-white text-xs">
+            1
+          </span>
           Hóspede Principal
         </h3>
         <div className="space-y-5">
           <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
-            <Field label="Nome" error={errors.firstName?.message}>
-              <input {...register("firstName")} placeholder="João" className={inputClass} />
+            <Field id="firstName" label="Nome" error={errors.firstName?.message}>
+              <input id="firstName" {...register("firstName")} placeholder="João" className={inputClass} />
             </Field>
-            <Field label="Sobrenome" error={errors.lastName?.message}>
-              <input {...register("lastName")} placeholder="Silva" className={inputClass} />
+            <Field id="lastName" label="Sobrenome" error={errors.lastName?.message}>
+              <input id="lastName" {...register("lastName")} placeholder="Silva" className={inputClass} />
             </Field>
           </div>
-          <Field label="E-mail" error={errors.email?.message}>
-            <input {...register("email")} type="email" placeholder="joao@exemplo.com" className={inputClass} />
+          <Field id="email" label="E-mail" error={errors.email?.message}>
+            <input
+              id="email"
+              {...register("email")}
+              type="email"
+              placeholder="joao@exemplo.com"
+              className={inputClass}
+            />
           </Field>
           <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
-            <Field label="Telefone" error={errors.phone?.message}>
+            <Field id="phone" label="Telefone" error={errors.phone?.message}>
               <input
+                id="phone"
                 {...register("phone")}
                 placeholder="(11) 91234-5678"
                 className={inputClass}
@@ -100,8 +108,9 @@ export function PersonalStep({ form, onSubmit, totalGuests = 1 }: PersonalStepPr
                 }}
               />
             </Field>
-            <Field label="CPF" error={errors.document?.message}>
+            <Field id="document" label="CPF" error={errors.document?.message}>
               <input
+                id="document"
                 {...register("document")}
                 placeholder="000.000.000-00"
                 className={inputClass}
@@ -127,7 +136,12 @@ export function PersonalStep({ form, onSubmit, totalGuests = 1 }: PersonalStepPr
                 className="flex items-center gap-1 text-xs font-medium text-blue-600 hover:text-blue-700"
               >
                 <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M12 4v16m8-8H4"
+                  />
                 </svg>
                 Adicionar hóspede ({fields.length + 1}/{extraGuests})
               </button>
@@ -152,15 +166,25 @@ export function PersonalStep({ form, onSubmit, totalGuests = 1 }: PersonalStepPr
                 </button>
               </div>
               <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-                <Field label="Nome" error={errors.additionalGuests?.[index]?.firstName?.message}>
+                <Field
+                  id={`guest-${index}-firstName`}
+                  label="Nome"
+                  error={errors.additionalGuests?.[index]?.firstName?.message}
+                >
                   <input
+                    id={`guest-${index}-firstName`}
                     {...register(`additionalGuests.${index}.firstName`)}
                     placeholder="Maria"
                     className={inputClass}
                   />
                 </Field>
-                <Field label="Sobrenome" error={errors.additionalGuests?.[index]?.lastName?.message}>
+                <Field
+                  id={`guest-${index}-lastName`}
+                  label="Sobrenome"
+                  error={errors.additionalGuests?.[index]?.lastName?.message}
+                >
                   <input
+                    id={`guest-${index}-lastName`}
                     {...register(`additionalGuests.${index}.lastName`)}
                     placeholder="Silva"
                     className={inputClass}

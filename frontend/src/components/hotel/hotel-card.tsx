@@ -1,10 +1,10 @@
 "use client"
 
+import { useQueryClient } from "@tanstack/react-query"
 import Image from "next/image"
 import Link from "next/link"
-import { useQueryClient } from "@tanstack/react-query"
-import { BLUR_DATA_URL } from "@/lib/image-placeholder"
 import { hotelApi } from "@/lib/hotel-api"
+import { BLUR_DATA_URL } from "@/lib/image-placeholder"
 import type { Amenity, Hotel } from "@/types/api"
 
 const AMENITY_LABELS: Partial<Record<Amenity, string>> = {
@@ -106,9 +106,24 @@ export function HotelCard({ hotel }: { hotel: Hotel }) {
         </h3>
 
         <p className="text-sm text-slate-500 mb-3 flex items-center gap-1">
-          <svg className="w-3.5 h-3.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+          <svg
+            className="w-3.5 h-3.5 shrink-0"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={2}
+              d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"
+            />
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={2}
+              d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"
+            />
           </svg>
           {hotel.destination}
         </p>
@@ -116,7 +131,10 @@ export function HotelCard({ hotel }: { hotel: Hotel }) {
         <div className="flex flex-wrap gap-1.5 mb-3">
           {visibleAmenities.map((a) =>
             AMENITY_LABELS[a] ? (
-              <span key={a} className="px-2 py-0.5 text-xs rounded-full bg-slate-100 text-slate-600">
+              <span
+                key={a}
+                className="px-2 py-0.5 text-xs rounded-full bg-slate-100 text-slate-600"
+              >
                 {AMENITY_LABELS[a]}
               </span>
             ) : null

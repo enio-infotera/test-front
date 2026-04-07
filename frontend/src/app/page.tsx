@@ -1,7 +1,7 @@
 import Image from "next/image"
 import Link from "next/link"
-import { SearchForm } from "@/components/search/search-form"
 import { FeaturedHotels } from "@/components/hotel/featured-hotels"
+import { SearchForm } from "@/components/search/search-form"
 import { BLUR_DATA_URL } from "@/lib/image-placeholder"
 
 export default function HomePage() {
@@ -33,7 +33,8 @@ export default function HomePage() {
             </span>
           </h1>
           <p className="mt-5 text-lg md:text-xl text-white/75 max-w-xl mx-auto leading-relaxed">
-            Compare hotéis, resorts e pousadas no Brasil inteiro. Reserve com segurança e os melhores preços.
+            Compare hotéis, resorts e pousadas no Brasil inteiro. Reserve com segurança e os
+            melhores preços.
           </p>
         </div>
 
@@ -59,8 +60,18 @@ export default function HomePage() {
         </div>
 
         <div className="absolute bottom-8 z-10 animate-bounce">
-          <svg className="w-6 h-6 text-white/40" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M19 9l-7 7-7-7" />
+          <svg
+            className="w-6 h-6 text-white/40"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={1.5}
+              d="M19 9l-7 7-7-7"
+            />
           </svg>
         </div>
       </section>
@@ -82,7 +93,9 @@ export default function HomePage() {
         <div className="max-w-7xl mx-auto">
           <div className="flex items-end justify-between mb-10">
             <div>
-              <p className="text-sm font-semibold text-blue-600 uppercase tracking-wider mb-1">Para onde ir?</p>
+              <p className="text-sm font-semibold text-blue-600 uppercase tracking-wider mb-1">
+                Para onde ir?
+              </p>
               <h2 className="text-3xl font-bold text-slate-900">Destinos populares</h2>
             </div>
             <Link
@@ -91,7 +104,12 @@ export default function HomePage() {
             >
               Ver todos
               <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M9 5l7 7-7 7"
+                />
               </svg>
             </Link>
           </div>
@@ -115,7 +133,9 @@ export default function HomePage() {
                 <span className="block text-xs font-semibold text-white/60 uppercase tracking-widest mb-1">
                   Sudeste
                 </span>
-                <h3 className="text-xl md:text-3xl font-bold text-white leading-tight">Rio de Janeiro</h3>
+                <h3 className="text-xl md:text-3xl font-bold text-white leading-tight">
+                  Rio de Janeiro
+                </h3>
                 <p className="text-white/70 text-sm mt-1">3 hotéis disponíveis</p>
               </div>
             </Link>
@@ -177,7 +197,9 @@ export default function HomePage() {
             <div className="absolute inset-0 bg-gradient-to-r from-black/65 via-black/30 to-transparent" />
             <div className="absolute inset-0 flex items-center px-6 md:px-10">
               <div>
-                <span className="text-xs font-semibold text-white/60 uppercase tracking-widest">Sul do Brasil</span>
+                <span className="text-xs font-semibold text-white/60 uppercase tracking-widest">
+                  Sul do Brasil
+                </span>
                 <h3 className="text-xl md:text-2xl font-bold text-white mt-0.5">Gramado</h3>
                 <p className="text-white/65 text-xs mt-1">1 hotel disponível</p>
               </div>
@@ -191,7 +213,9 @@ export default function HomePage() {
       <section className="px-4 sm:px-6 py-16 bg-white">
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-12">
-            <p className="text-sm font-semibold text-blue-600 uppercase tracking-wider mb-1">Por que nós?</p>
+            <p className="text-sm font-semibold text-blue-600 uppercase tracking-wider mb-1">
+              Por que nós?
+            </p>
             <h2 className="text-3xl font-bold text-slate-900">Viaje com tranquilidade</h2>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -221,7 +245,10 @@ export default function HomePage() {
           </div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {TESTIMONIALS.map((t) => (
-              <div key={t.name} className="bg-white rounded-2xl p-6 shadow-sm border border-gray-100">
+              <div
+                key={t.name}
+                className="bg-white rounded-2xl p-6 shadow-sm border border-gray-100"
+              >
                 <div className="flex gap-0.5 mb-3">
                   {Array.from({ length: 5 }).map((_, i) => (
                     <svg
@@ -320,7 +347,8 @@ const STATS = [
 const BENEFITS = [
   {
     title: "Melhores preços",
-    description: "Compare centenas de opções e garanta o melhor custo-benefício para sua hospedagem.",
+    description:
+      "Compare centenas de opções e garanta o melhor custo-benefício para sua hospedagem.",
     icon: (
       <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
         <path
@@ -362,7 +390,8 @@ const BENEFITS = [
   },
   {
     title: "Suporte 24 horas",
-    description: "Nossa equipe está disponível a qualquer hora para ajudar antes, durante e após a viagem.",
+    description:
+      "Nossa equipe está disponível a qualquer hora para ajudar antes, durante e após a viagem.",
     icon: (
       <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
         <path
@@ -408,4 +437,3 @@ const TESTIMONIALS = [
     verified: true,
   },
 ]
-

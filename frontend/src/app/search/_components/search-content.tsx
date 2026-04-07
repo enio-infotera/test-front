@@ -1,23 +1,30 @@
 "use client"
 
 import { useQuery } from "@tanstack/react-query"
-import { useLayoutEffect, useRef, useState } from "react"
 import { useWindowVirtualizer } from "@tanstack/react-virtual"
-import { useSearchParams } from "next/navigation"
-import { hotelApi } from "@/lib/hotel-api"
-import { useHotelFilters } from "@/hooks/use-hotel-filters"
-import type { SortOption } from "@/hooks/use-hotel-filters"
+import { useLayoutEffect, useRef, useState } from "react"
 import { HotelCard, HotelCardSkeleton } from "@/components/hotel/hotel-card"
 import { HotelFilters } from "@/components/search/hotel-filters"
 import { HotelSortBar } from "@/components/search/hotel-sort-bar"
+import type { SortOption } from "@/hooks/use-hotel-filters"
+import { useHotelFilters } from "@/hooks/use-hotel-filters"
+import { hotelApi } from "@/lib/hotel-api"
 import type { Hotel } from "@/types/api"
 
 const COLS = 3
 
-function applyClientFilters(hotels: Hotel[], filters: ReturnType<typeof useHotelFilters>["filters"]): Hotel[] {
+function applyClientFilters(
+  hotels: Hotel[],
+  filters: ReturnType<typeof useHotelFilters>["filters"]
+): Hotel[] {
   return hotels.filter((hotel) => {
-    if (filters.propertyTypes.length > 0 && !filters.propertyTypes.includes(hotel.propertyType)) return false
-    if (filters.amenities.length > 0 && !filters.amenities.every((a) => hotel.amenities.includes(a))) return false
+    if (filters.propertyTypes.length > 0 && !filters.propertyTypes.includes(hotel.propertyType))
+      return false
+    if (
+      filters.amenities.length > 0 &&
+      !filters.amenities.every((a) => hotel.amenities.includes(a))
+    )
+      return false
     if (filters.minPrice > 0 && hotel.pricePerNight < filters.minPrice) return false
     if (filters.maxPrice < 5000 && hotel.pricePerNight > filters.maxPrice) return false
     if (filters.minRating > 0 && hotel.rating < filters.minRating) return false
@@ -29,8 +36,18 @@ function EmptyState({ onReset }: { onReset: () => void }) {
   return (
     <div className="flex flex-col items-center justify-center py-20 text-center">
       <div className="w-16 h-16 bg-slate-100 rounded-full flex items-center justify-center mb-4">
-        <svg className="w-8 h-8 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+        <svg
+          className="w-8 h-8 text-slate-400"
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth={1.5}
+            d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+          />
         </svg>
       </div>
       <h3 className="text-lg font-semibold text-slate-800 mb-2">Nenhum hotel encontrado</h3>
@@ -48,7 +65,15 @@ function EmptyState({ onReset }: { onReset: () => void }) {
   )
 }
 
-function Pagination({ page, totalPages, onPageChange }: { page: number; totalPages: number; onPageChange: (p: number) => void }) {
+function Pagination({
+  page,
+  totalPages,
+  onPageChange,
+}: {
+  page: number
+  totalPages: number
+  onPageChange: (p: number) => void
+}) {
   if (totalPages <= 1) return null
 
   const pages = Array.from({ length: totalPages }, (_, i) => i + 1)
@@ -97,7 +122,12 @@ export function SearchContent() {
   const listRef = useRef<HTMLDivElement>(null)
   const [scrollMargin, setScrollMargin] = useState(0)
 
-  const { data: allHotels = [], isLoading, isError, refetch } = useQuery({
+  const {
+    data: allHotels = [],
+    isLoading,
+    isError,
+    refetch,
+  } = useQuery({
     queryKey: ["hotels", "search", toApiParams()],
     queryFn: () => hotelApi.getHotels({ ...toApiParams(), limit: 100 }),
     staleTime: 2 * 60 * 1000,
@@ -105,7 +135,6 @@ export function SearchContent() {
 
   const filtered = applyClientFilters(allHotels, filters)
 
-  // Group into rows of COLS for virtualization
   const rows: Hotel[][] = []
   for (let i = 0; i < filtered.length; i += COLS) {
     rows.push(filtered.slice(i, i + COLS))
@@ -115,7 +144,7 @@ export function SearchContent() {
     if (listRef.current) {
       setScrollMargin(listRef.current.offsetTop)
     }
-  }, [filtered.length, isLoading])
+  }, [filtered.length, isLoading, listRef, setScrollMargin])
 
   const rowVirtualizer = useWindowVirtualizer({
     count: rows.length,
@@ -147,8 +176,7 @@ export function SearchContent() {
         {filters.destination && (
           <div className="mb-6">
             <h1 className="text-2xl font-bold text-slate-900">
-              Hotéis em{" "}
-              <span className="text-blue-600">{filters.destination}</span>
+              Hotéis em <span className="text-blue-600">{filters.destination}</span>
             </h1>
             {filters.checkIn && filters.checkOut && (
               <p className="text-sm text-slate-500 mt-1">

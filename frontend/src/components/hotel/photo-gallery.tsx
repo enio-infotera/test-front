@@ -44,13 +44,21 @@ function Lightbox({
         aria-label="Fechar"
       >
         <svg className="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth={2}
+            d="M6 18L18 6M6 6l12 12"
+          />
         </svg>
       </button>
 
       <button
         type="button"
-        onClick={(e) => { e.stopPropagation(); onPrev() }}
+        onClick={(e) => {
+          e.stopPropagation()
+          onPrev()
+        }}
         className="absolute left-4 p-3 text-white/70 hover:text-white disabled:opacity-30"
         disabled={index === 0}
         aria-label="Anterior"
@@ -60,7 +68,10 @@ function Lightbox({
         </svg>
       </button>
 
-      <div className="relative w-full max-w-4xl max-h-[80vh] px-16" onClick={(e) => e.stopPropagation()}>
+      <div
+        className="relative w-full max-w-4xl max-h-[80vh] px-16"
+        onClick={(e) => e.stopPropagation()}
+      >
         <Image
           src={images[index]}
           alt={`Foto ${index + 1}`}
@@ -76,7 +87,10 @@ function Lightbox({
 
       <button
         type="button"
-        onClick={(e) => { e.stopPropagation(); onNext() }}
+        onClick={(e) => {
+          e.stopPropagation()
+          onNext()
+        }}
         className="absolute right-4 p-3 text-white/70 hover:text-white disabled:opacity-30"
         disabled={index === images.length - 1}
         aria-label="Próxima"
@@ -91,7 +105,9 @@ function Lightbox({
           <button
             key={src}
             type="button"
-            onClick={(e) => { e.stopPropagation(); }}
+            onClick={(e) => {
+              e.stopPropagation()
+            }}
             className={`shrink-0 w-14 h-10 rounded overflow-hidden border-2 transition-colors ${
               i === index ? "border-white" : "border-transparent opacity-60 hover:opacity-100"
             }`}
@@ -111,10 +127,18 @@ export function PhotoGallery({ images, hotelName }: PhotoGalleryProps) {
   const thumbs = images.slice(1, 5)
   const remaining = images.length - 5
 
-  function open(index: number) { setLightboxIndex(index) }
-  function close() { setLightboxIndex(null) }
-  function prev() { setLightboxIndex((i) => (i !== null && i > 0 ? i - 1 : i)) }
-  function next() { setLightboxIndex((i) => (i !== null && i < images.length - 1 ? i + 1 : i)) }
+  function open(index: number) {
+    setLightboxIndex(index)
+  }
+  function close() {
+    setLightboxIndex(null)
+  }
+  function prev() {
+    setLightboxIndex((i) => (i !== null && i > 0 ? i - 1 : i))
+  }
+  function next() {
+    setLightboxIndex((i) => (i !== null && i < images.length - 1 ? i + 1 : i))
+  }
 
   return (
     <>

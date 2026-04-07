@@ -1,7 +1,7 @@
 "use client"
 
+import type { HotelFilters as HotelFiltersType } from "@/hooks/use-hotel-filters"
 import type { Amenity, Hotel } from "@/types/api"
-import type { HotelFilters } from "@/hooks/use-hotel-filters"
 
 const AMENITY_OPTIONS: { value: Amenity; label: string }[] = [
   { value: "wifi", label: "Wi-Fi" },
@@ -30,8 +30,8 @@ const RATING_OPTIONS = [
 ]
 
 interface HotelFiltersProps {
-  filters: HotelFilters
-  onFiltersChange: (updates: Partial<HotelFilters>) => void
+  filters: HotelFiltersType
+  onFiltersChange: (updates: Partial<HotelFiltersType>) => void
   onClose?: () => void
 }
 
@@ -47,9 +47,7 @@ function FilterSection({ title, children }: { title: string; children: React.Rea
 export function HotelFilters({ filters, onFiltersChange, onClose }: HotelFiltersProps) {
   function togglePropertyType(type: Hotel["propertyType"]) {
     const current = filters.propertyTypes
-    const next = current.includes(type)
-      ? current.filter((t) => t !== type)
-      : [...current, type]
+    const next = current.includes(type) ? current.filter((t) => t !== type) : [...current, type]
     onFiltersChange({ propertyTypes: next })
   }
 
@@ -100,7 +98,12 @@ export function HotelFilters({ filters, onFiltersChange, onClose }: HotelFilters
               aria-label="Fechar filtros"
             >
               <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M6 18L18 6M6 6l12 12"
+                />
               </svg>
             </button>
           )}
@@ -155,8 +158,9 @@ export function HotelFilters({ filters, onFiltersChange, onClose }: HotelFilters
         <div className="space-y-3">
           <div className="flex items-center gap-2">
             <div className="flex-1">
-              <label className="text-xs text-slate-500 mb-1 block">Mín.</label>
+              <label htmlFor="price-min" className="text-xs text-slate-500 mb-1 block">Mín.</label>
               <input
+                id="price-min"
                 type="number"
                 min={0}
                 max={filters.maxPrice - 50}
@@ -168,8 +172,9 @@ export function HotelFilters({ filters, onFiltersChange, onClose }: HotelFilters
             </div>
             <span className="text-slate-300 mt-5">—</span>
             <div className="flex-1">
-              <label className="text-xs text-slate-500 mb-1 block">Máx.</label>
+              <label htmlFor="price-max" className="text-xs text-slate-500 mb-1 block">Máx.</label>
               <input
+                id="price-max"
                 type="number"
                 min={filters.minPrice + 50}
                 max={5000}

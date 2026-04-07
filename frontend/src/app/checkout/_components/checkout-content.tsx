@@ -1,18 +1,14 @@
 "use client"
 
-import { useEffect } from "react"
 import { useRouter } from "next/navigation"
-import { useBookingStore } from "@/store/booking-store"
+import { useEffect } from "react"
 import { useCheckout } from "@/hooks/use-checkout"
-import { PersonalStep } from "./personal-step"
+import { useBookingStore } from "@/store/booking-store"
 import { PaymentStep } from "./payment-step"
+import { PersonalStep } from "./personal-step"
 import { ReviewStep } from "./review-step"
 
-const STEPS = [
-  { label: "Dados pessoais" },
-  { label: "Pagamento" },
-  { label: "Revisão" },
-]
+const STEPS = [{ label: "Dados pessoais" }, { label: "Pagamento" }, { label: "Revisão" }]
 
 function StepIndicator({ current }: { current: number }) {
   return (
@@ -42,9 +38,7 @@ function StepIndicator({ current }: { current: number }) {
               {s.label}
             </span>
             {i < STEPS.length - 1 && (
-              <div
-                className={`h-px w-8 ${done ? "bg-green-400" : "bg-gray-200"}`}
-              />
+              <div className={`h-px w-8 ${done ? "bg-green-400" : "bg-gray-200"}`} />
             )}
           </div>
         )
@@ -73,7 +67,7 @@ function BookingSidebar({
   function fmt(iso: string) {
     if (!iso) return "—"
     const d = new Date(iso)
-    if (isNaN(d.getTime())) return "—"
+    if (Number.isNaN(d.getTime())) return "—"
     return d.toLocaleDateString("pt-BR", {
       day: "2-digit",
       month: "short",
@@ -83,9 +77,7 @@ function BookingSidebar({
 
   return (
     <div className="rounded-2xl border border-gray-200 bg-white p-5 shadow-sm">
-      <h2 className="mb-4 text-base font-semibold text-gray-900">
-        Sua reserva
-      </h2>
+      <h2 className="mb-4 text-base font-semibold text-gray-900">Sua reserva</h2>
       <div className="space-y-2 text-sm text-gray-600">
         <p className="font-medium text-gray-900">{hotel.name}</p>
         <p>{hotel.destination}</p>
@@ -142,11 +134,9 @@ export function CheckoutContent() {
 
   const nights = (() => {
     if (!selection?.checkIn || !selection?.checkOut) return 1
-    const diff =
-      new Date(selection.checkOut).getTime() -
-      new Date(selection.checkIn).getTime()
+    const diff = new Date(selection.checkOut).getTime() - new Date(selection.checkIn).getTime()
     const n = Math.round(diff / 86_400_000)
-    return isNaN(n) || n < 1 ? 1 : n
+    return Number.isNaN(n) || n < 1 ? 1 : n
   })()
 
   const checkout = useCheckout(selection?.room.pricePerNight ?? 0, nights)
@@ -183,7 +173,11 @@ export function CheckoutContent() {
         <div className="lg:col-span-2">
           <div className="rounded-2xl border border-gray-200 bg-white p-6 shadow-sm">
             {step === 1 && (
-              <PersonalStep form={personalForm} onSubmit={submitPersonal} totalGuests={selection.guests} />
+              <PersonalStep
+                form={personalForm}
+                onSubmit={submitPersonal}
+                totalGuests={selection.guests}
+              />
             )}
             {step === 2 && (
               <PaymentStep
