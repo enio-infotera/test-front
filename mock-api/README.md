@@ -1,111 +1,127 @@
 # 🏨 Hotel Booking Mock API
 
-API mockada completa para o teste técnico de frontend, usando **json-server**.
+API mockada para o teste técnico de frontend, feita com **json-server 0.17**.
 
 ---
 
-## 🚀 Instalação e Uso
-
-### Opção 1: Rodar localmente
+## 🚀 Instalação e uso
 
 ```bash
 # 1. Instalar dependências
 npm install
-# ou
-pnpm install
-# ou
-yarn install
 
-# 2. Iniciar servidor (com delay de 300ms para simular rede)
+# 2. Iniciar o servidor (atraso de 300ms por requisição, para simular rede)
 npm run server
 
-# 3. API disponível em:
+# 3. API disponível em
 http://localhost:3333
 ```
 
-### Opção 2: Sem delay (testes rápidos)
+A cada start, o servidor copia `db.seed.json` para `db.json` e usa essa cópia. As reservas que você criar duram até o próximo start. O `db.json` está no `.gitignore`, então não vai parar no seu commit. Para mudar os dados de partida, edite o `db.seed.json` e reinicie.
+
+### Opções
+
+| Script / flag | O que faz |
+|---|---|
+| `npm run server` | Porta 3333, atraso de 300ms |
+| `npm run server:fast` | Sem atraso |
+| `npm start` | Escuta em `0.0.0.0` e lê a porta da variável `PORT` (use este para hospedar) |
+| `--port 4000` ou `PORT=4000` | Muda a porta |
+| `--delay 1000` ou `DELAY=1000` | Muda o atraso padrão (ms) |
+| `--fail-rate 0.2` ou `FAIL_RATE=0.2` | ~20% das requisições respondem `500` |
+
+As flags vão depois de `--`, por exemplo `npm run server -- --fail-rate 0.2`.
+
+### Simulando lentidão e erro
+
+Para ver seus loading states, retries e error boundaries funcionando:
 
 ```bash
-npm run server:fast
+# Uma requisição lenta
+GET /hotels?destination=Gramado, RS&_delay=3000
+
+# Uma requisição que falha (sempre 500)
+GET /hotels/1?_fail=1
+
+# Falhas aleatórias em toda a API
+npm run server -- --fail-rate 0.3
 ```
 
-### Opção 3: Acesso em rede local
-
-```bash
-npm run server:prod
-# Acessível em http://SEU_IP:3333
-```
+A resposta de erro é `{ "error": "Falha simulada pela mock API" }` com status `500`.
 
 ---
 
-## 📡 Endpoints Disponíveis
+## 📡 Endpoints
 
-### Base URL
-```
-http://localhost:3333
-```
+Base URL: `http://localhost:3333`
 
-### 1. Sugestões de Destinos (Autocomplete)
+### 1. Sugestões de destinos (autocomplete)
 
 **GET** `/suggestions`
 
-Buscar por query string:
 ```bash
-GET /suggestions?q=Rio
-GET /suggestions?name_like=São
+GET /suggestions?q=sao        # ignora acentos: encontra "São Paulo, SP"
+GET /suggestions?q=florianop
+GET /suggestions?name_like=^Rio
 ```
 
-**Resposta:**
 ```json
 [
   {
     "id": 1,
     "name": "Rio de Janeiro, RJ",
     "type": "city",
-    "country": "Brasil"
+    "country": "Brasil",
+    "searchName": "rio de janeiro, rj"
   }
 ]
 ```
 
+O `?q=` ignora acentos só em `/suggestions`. Em `/hotels` a busca textual é a do json-server, que diferencia "Florianópolis" de "Florianopolis".
+
 ---
 
-### 2. Lista de Hotéis
+### 2. Lista de hotéis
 
 **GET** `/hotels`
 
-**Query params suportados:**
-
 ```bash
-# Buscar por destino
+# Por destino (o valor é exatamente o "name" da sugestão)
 GET /hotels?destination=Rio de Janeiro, RJ
 
-# Buscar por nome
+# Por nome
 GET /hotels?name_like=Palace
 
-# Filtrar por preço (range)
+# Faixa de preço
 GET /hotels?pricePerNight_gte=200&pricePerNight_lte=1000
 
-# Filtrar por avaliação mínima
+# Avaliação mínima
 GET /hotels?rating_gte=4.5
 
-# Filtrar por tipo de propriedade
-GET /hotels?propertyType=hotel
+# Tipo de propriedade (repita o parâmetro para mais de um)
+GET /hotels?propertyType=hotel&propertyType=pousada
 
-# Ordenar (asc/desc)
+# Comodidade (amenities é um array, então use _like)
+GET /hotels?amenities_like=pool
+# Repetir o parâmetro funciona como OU (piscina OU spa).
+# Para exigir todas as comodidades, filtre no cliente.
+GET /hotels?amenities_like=pool&amenities_like=spa
+
+# Ordenação
 GET /hotels?_sort=pricePerNight&_order=asc
 GET /hotels?_sort=rating&_order=desc
+GET /hotels?_sort=reviewCount&_order=desc   # "mais popular"
 
-# Paginação
+# Paginação (o total vem no header X-Total-Count)
 GET /hotels?_page=1&_limit=10
 
-# Featured hotels
+# Destaques
 GET /hotels?featured=true
 
-# Combinar filtros
+# Combinando
 GET /hotels?destination=São Paulo, SP&pricePerNight_lte=500&rating_gte=4.0&_sort=pricePerNight&_order=asc
 ```
 
-**Resposta:**
 ```json
 [
   {
@@ -122,17 +138,14 @@ GET /hotels?destination=São Paulo, SP&pricePerNight_lte=500&rating_gte=4.0&_sor
 ]
 ```
 
+`pricePerNight` do hotel é o preço do quarto mais barato. `availableRooms` é a soma do `available` dos quartos; quando dá `0`, o hotel está esgotado.
+
 ---
 
-### 3. Detalhes do Hotel
+### 3. Detalhes do hotel
 
 **GET** `/hotels/:id`
 
-```bash
-GET /hotels/1
-```
-
-**Resposta:**
 ```json
 {
   "id": 1,
@@ -154,17 +167,14 @@ GET /hotels/1
 }
 ```
 
+Um id que não existe responde `404`.
+
 ---
 
-### 4. Quartos do Hotel
+### 4. Quartos do hotel
 
 **GET** `/rooms?hotelId=:id`
 
-```bash
-GET /rooms?hotelId=1
-```
-
-**Resposta:**
 ```json
 [
   {
@@ -185,17 +195,15 @@ GET /rooms?hotelId=1
 
 ---
 
-### 5. Reviews do Hotel
+### 5. Reviews do hotel
 
 **GET** `/reviews?hotelId=:id`
 
 ```bash
-GET /reviews?hotelId=1
 GET /reviews?hotelId=1&_sort=date&_order=desc
 GET /reviews?hotelId=1&_page=1&_limit=5
 ```
 
-**Resposta:**
 ```json
 [
   {
@@ -215,24 +223,36 @@ GET /reviews?hotelId=1&_page=1&_limit=5
 
 ---
 
-### 6. Relacionamentos (Expand)
+### 6. Reservas
 
-**GET** com `_embed` para incluir dados relacionados:
+**POST** `/bookings` cria uma reserva. O json-server grava o corpo que você mandar e gera um `id` numérico se você não enviar um. O formato sugerido é o tipo `Booking` em `types.ts`.
 
 ```bash
-# Hotel com seus quartos
+curl -X POST http://localhost:3333/bookings \
+  -H 'Content-Type: application/json' \
+  -d '{"hotelId":1,"roomId":1,"checkIn":"2026-12-01","checkOut":"2026-12-04","rooms":1,"adults":2,"children":0,"guests":[],"totalPrice":3600,"createdAt":"2026-11-10T12:00:00Z"}'
+```
+
+Responde `201` com a reserva salva, incluindo o `id`.
+
+**GET** `/bookings/:id` busca uma reserva. **GET** `/bookings` lista todas.
+
+A API não valida nada: quem garante os dados é o seu formulário.
+
+---
+
+### 7. Relacionamentos
+
+```bash
 GET /hotels/1?_embed=rooms
-
-# Hotel com reviews
 GET /hotels/1?_embed=reviews
-
-# Hotel com ambos
 GET /hotels/1?_embed=rooms&_embed=reviews
+GET /rooms/1?_expand=hotel
 ```
 
 ---
 
-## 🔍 Operadores de Busca (json-server)
+## 🔍 Operadores do json-server
 
 | Operador | Descrição | Exemplo |
 |----------|-----------|---------|
@@ -240,141 +260,66 @@ GET /hotels/1?_embed=rooms&_embed=reviews
 | `_lte` | Menor ou igual | `pricePerNight_lte=1000` |
 | `_ne` | Diferente | `propertyType_ne=pousada` |
 | `_like` | Contém (regex) | `name_like=Palace` |
-| `q` | Full-text search | `q=luxo` |
+| `q` | Busca em todos os campos | `q=praia` |
 | `_sort` | Ordenar por campo | `_sort=rating` |
 | `_order` | Ordem (asc/desc) | `_order=desc` |
 | `_page` | Número da página | `_page=1` |
-| `_limit` | Items por página | `_limit=10` |
+| `_limit` | Itens por página | `_limit=10` |
 
 ---
 
-## 💡 Exemplos de Uso
+## 🎨 Dados
 
-### 1. Busca com filtros múltiplos
+- 10 destinos. Bonito, MS não tem hotel nenhum, de propósito, para você tratar o estado vazio.
+- 60 hotéis: Rio e São Paulo têm 14 cada (dá mais de uma página com `_limit=10`), os outros destinos têm de 2 a 8.
+- 162 quartos e 328 reviews. Alguns hotéis têm uma review só, outros têm 14.
+- Dois hotéis estão esgotados (todos os quartos com `available: 0`).
+- Preços de R$ 180 a R$ 3.180 por noite.
+- Imagens do Unsplash e avatares do pravatar.cc.
 
-```typescript
-// Hotéis no Rio, entre R$300-800, rating > 4.5, ordenados por preço
-const response = await fetch(
-  'http://localhost:3333/hotels?' +
-  'destination=Rio de Janeiro, RJ' +
-  '&pricePerNight_gte=300' +
-  '&pricePerNight_lte=800' +
-  '&rating_gte=4.5' +
-  '&_sort=pricePerNight' +
-  '&_order=asc'
-);
+Os hotéis 1 a 8 são os originais. Os outros são fictícios.
+
+### Tipos de propriedade
+
+`hotel`, `pousada`, `resort`
+
+### Comodidades do hotel
+
+```
+wifi, breakfast, pool, spa, restaurant, gym, parking, bar, room_service,
+beach_access, kids_club, business_center, concierge, valet, lounge_access
 ```
 
-### 2. Autocomplete de destinos
+### Comodidades do quarto
 
-```typescript
-// Debounced search
-const searchDestination = async (query: string) => {
-  const response = await fetch(
-    `http://localhost:3333/suggestions?q=${query}`
-  );
-  return response.json();
-};
 ```
-
-### 3. Detalhes completos do hotel
-
-```typescript
-// Hotel + quartos + reviews em uma única request
-const response = await fetch(
-  'http://localhost:3333/hotels/1?_embed=rooms&_embed=reviews'
-);
-```
-
-### 4. Paginação
-
-```typescript
-// Página 2, 10 items por página
-const response = await fetch(
-  'http://localhost:3333/hotels?_page=2&_limit=10'
-);
-
-// Total de items vem no header
-const total = response.headers.get('X-Total-Count');
+ocean_view, city_view, garden_view, balcony, terrace, bathtub, minibar, safe,
+aircon, desk, kitchen, living_room, sound_system, butler, pool_access, garden,
+lounge_access
 ```
 
 ---
 
-## 🎨 Dados Mockados
+## ☁️ Hospedando a API (para o deploy bônus)
 
-### Estatísticas:
-- **10 destinos** diferentes
-- **8 hotéis** com dados completos
-- **12 quartos** variados
-- **8 reviews** verificadas
-- Imagens reais do Unsplash
-- Preços realistas (R$ 220 - R$ 1800/noite)
+Qualquer serviço que rode Node serve (Render, Railway, Fly.io e outros). Configure:
 
-### Tipos de Propriedade:
-- `hotel` - Hotéis tradicionais
-- `pousada` - Pousadas
-- `resort` - Resorts
+- Root directory: `mock-api`
+- Build: `npm install`
+- Start: `npm start`
 
-### Amenities disponíveis:
-```
-wifi, pool, spa, restaurant, gym, parking, bar, 
-room_service, beach_access, kids_club, business_center, 
-concierge, valet, lounge_access
-```
+O serviço define `PORT` e o servidor usa. Depois aponte o front para a URL pública por variável de ambiente.
 
-### Room amenities:
-```
-ocean_view, city_view, garden_view, balcony, terrace, 
-bathtub, minibar, safe, aircon, desk, kitchen, 
-living_room, sound_system, butler
-```
+O CORS já vem liberado. As reservas somem quando o serviço reinicia, e isso é esperado.
 
 ---
 
-## 🧪 Testando a API
+## 🚨 Problemas comuns
 
-### cURL
+### `EADDRINUSE`
 
-```bash
-# Listar hotéis
-curl http://localhost:3333/hotels
+A porta 3333 já está em uso. Use outra com `npm run server -- --port 4000`, ou encerre o processo:
 
-# Detalhes de um hotel
-curl http://localhost:3333/hotels/1
-
-# Buscar com filtros
-curl "http://localhost:3333/hotels?destination=Rio%20de%20Janeiro,%20RJ&rating_gte=4.5"
-```
-
----
-
-## 🔧 Customizações
-
-### Adicionar delay customizado
-
-Edite `package.json`:
-```json
-"server": "json-server --watch db.json --port 3333 --delay 500"
-```
-
-### Mudar porta
-
-```json
-"server": "json-server --watch db.json --port 4000"
-```
-
-### Adicionar mais dados
-
-Edite `db.json` e adicione mais itens nos arrays.
-
----
-
-## 🚨 Troubleshooting
-
-### Erro: `EADDRINUSE`
-Porta 3333 já está em uso.
-
-**Solução:**
 ```bash
 # Linux/Mac
 lsof -ti:3333 | xargs kill -9
@@ -382,73 +327,16 @@ lsof -ti:3333 | xargs kill -9
 # Windows
 netstat -ano | findstr :3333
 taskkill /PID <PID> /F
-
-# Ou use outra porta
-npm run server -- --port 4000
 ```
+
+### A API não responde
+
+- Rodou `npm install` dentro de `mock-api`?
+- O `npm run server` está rodando?
+- A URL é `http://localhost:3333`?
 
 ---
 
-### API não responde
+## 📚 json-server
 
-**Checklist:**
-- [ ] `npm install` foi executado?
-- [ ] `npm run server` está rodando?
-- [ ] Porta 3333 está livre?
-- [ ] URL está correta? (`http://localhost:3333`)
-
----
-
-## 🎯 Alternativas
-
-### Opção 1: MSW (Mock Service Worker)
-
-Se preferir mockar no cliente:
-
-```bash
-npm install msw --save-dev
-```
-
-```typescript
-// src/mocks/handlers.ts
-import { http, HttpResponse } from 'msw'
-import db from './db.json'
-
-export const handlers = [
-  http.get('/hotels', ({ request }) => {
-    const url = new URL(request.url)
-    const destination = url.searchParams.get('destination')
-    
-    let hotels = db.hotels
-    if (destination) {
-      hotels = hotels.filter(h => h.destination === destination)
-    }
-    
-    return HttpResponse.json(hotels)
-  })
-]
-```
-
-### Opção 2: Dados estáticos
-
-Copie `db.json` para seu projeto:
-
-```typescript
-// src/data/hotels.ts
-import data from './db.json'
-
-export const hotels = data.hotels
-export const rooms = data.rooms
-export const reviews = data.reviews
-```
-
----
-
-## 📚 Documentação json-server
-
-- [GitHub](https://github.com/typicode/json-server)
-- [Docs Completas](https://github.com/typicode/json-server#readme)
-
----
-
-Se tiver problemas, documente no README do seu projeto e use dados mockados estaticamente.
+- [README da versão 0.17](https://github.com/typicode/json-server/tree/v0.17.4)

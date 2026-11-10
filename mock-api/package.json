@@ -3,14 +3,23 @@
   "version": "1.0.0",
   "description": "Mock API para teste técnico de frontend",
   "scripts": {
-    "server": "json-server --watch db.json --port 3333 --delay 300",
-    "server:fast": "json-server --watch db.json --port 3333",
-    "server:prod": "json-server --watch db.json --port 3333 --host 0.0.0.0"
+    "server": "node server.js",
+    "server:fast": "node server.js --delay 0",
+    "server:prod": "node server.js --host 0.0.0.0",
+    "start": "node server.js --host 0.0.0.0"
   },
   "dependencies": {
     "json-server": "^0.17.4"
   },
-  "keywords": ["mock", "api", "hotel", "booking"],
+  "keywords": [
+    "mock",
+    "api",
+    "hotel",
+    "booking"
+  ],
   "author": "",
-  "license": "MIT"
+  "license": "MIT",
+  "engines": {
+    "node": ">=18"
+  }
 }

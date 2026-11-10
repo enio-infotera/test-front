@@ -10,6 +10,8 @@ export interface Suggestion {
   name: string
   type: 'city' | 'beach' | 'island' | 'nature'
   country: string
+  /** Nome sem acentos e em minúsculas, usado pela busca `?q=` */
+  searchName: string
 }
 
 export interface Hotel {
@@ -70,6 +72,7 @@ export interface Review {
 
 export type Amenity = 
   | 'wifi'
+  | 'breakfast'
   | 'pool'
   | 'spa'
   | 'restaurant'
@@ -101,6 +104,7 @@ export type RoomAmenity =
   | 'butler'
   | 'pool_access'
   | 'garden'
+  | 'lounge_access'
 
 // API Response types
 export interface HotelSearchParams {
@@ -116,6 +120,11 @@ export interface HotelSearchParams {
   _limit?: number
 }
 
+/**
+ * A API não devolve esse formato: com `_page`/`_limit` ela responde um array
+ * e manda o total no header `X-Total-Count`. Use este tipo se quiser montar
+ * a resposta paginada no cliente.
+ */
 export interface PaginatedResponse<T> {
   data: T[]
   total: number
@@ -140,6 +149,27 @@ export interface BookingData {
   checkOut: Date
   guests: GuestData[]
   totalPrice: number
+}
+
+/**
+ * Reserva salva via `POST /bookings` e lida via `GET /bookings/:id`.
+ * O json-server aceita qualquer JSON e gera o `id` se você não mandar.
+ * Este é um formato sugerido: adapte se precisar.
+ */
+export interface Booking {
+  id: number | string
+  hotelId: number
+  roomId: number
+  /** Datas em ISO (YYYY-MM-DD) */
+  checkIn: string
+  checkOut: string
+  rooms: number
+  adults: number
+  children: number
+  guests: GuestData[]
+  totalPrice: number
+  /** Data/hora em ISO */
+  createdAt: string
 }
 
 // Utility types
