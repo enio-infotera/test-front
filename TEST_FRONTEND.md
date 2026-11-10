@@ -2,13 +2,25 @@
 
 ## 💻 Sobre o Teste
 
-Este teste avalia sua capacidade de construir uma aplicação web **production-ready** com arquitetura escalável, performance otimizada e experiência de usuário excepcional. Você desenvolverá um sistema de busca e reserva de hotéis, lidando com cenários reais de complexidade.
+Este teste avalia sua capacidade de construir uma aplicação web **production-ready** com arquitetura escalável, performance otimizada e boa experiência de usuário. Você vai desenvolver um sistema de busca e reserva de hotéis, lidando com cenários reais de complexidade.
+
+---
+
+## ⏱️ Prazo e esforço
+
+Você tem **3 dias corridos** a partir do recebimento do teste. Esperamos que isso tome **de 8 a 12 horas** de trabalho. Não precisa passar disso.
+
+Ninguém precisa fazer tudo o que está neste documento. Os requisitos básicos são obrigatórios. Os avançados são opcionais: escolha os que quiser. **Avaliamos profundidade, não quantidade.** Poucos itens bem feitos e bem justificados valem mais que muitos feitos pela metade.
+
+## 🤖 Uso de IA
+
+Pode usar IA (Copilot, Claude, Cursor, o que preferir). Partimos do princípio de que todo mundo usa. Na conversa depois da entrega, você vai explicar as decisões do código, então entenda tudo o que entregar.
 
 ---
 
 ## 📝 Cenário de Uso
 
-Um usuário acessa a plataforma para buscar hotéis em um destino, filtrar resultados por múltiplos critérios, comparar opções, visualizar disponibilidade em tempo real, e completar uma reserva com múltiplos quartos e hóspedes.
+Um usuário acessa a plataforma para buscar hotéis em um destino, filtrar resultados por múltiplos critérios, comparar opções, ver a disponibilidade e completar uma reserva.
 
 A aplicação deve lidar com **estados complexos**, **sincronização de dados**, **otimizações de performance** e **edge cases** encontrados em sistemas reais.
 
@@ -16,13 +28,14 @@ A aplicação deve lidar com **estados complexos**, **sincronização de dados**
 
 ## 🚀 Stack de Tecnologia Obrigatória
 
-- **Framework:** Next.js 15+ com **App Router**
+- **Framework:** Next.js 15 ou 16 com **App Router**
 - **Linguagem:** TypeScript (strict mode)
 - **Estilização:** Tailwind CSS
 - **State Management:** Zustand ou Redux Toolkit
 - **Data Fetching:** TanStack Query (React Query v5)
 - **Formulários:** React Hook Form + Zod
-- **API/Integração:** É **obrigatório** utilizar o `mock-api` fornecido na pasta do projeto para todas as chamadas de backend simuladas.
+- **API/Integração:** É **obrigatório** usar o `mock-api` fornecido na pasta do projeto para todas as chamadas de backend. A documentação dos endpoints está em [`mock-api/README.md`](mock-api/README.md).
+- **URL da API:** leia a URL base de uma variável de ambiente (por exemplo `NEXT_PUBLIC_API_URL`), sem `localhost` fixo no código.
 
 ### Stack Adicional (Bônus mas recomendado):
 - Biome ou ESLint + Prettier (linting)
@@ -31,7 +44,7 @@ A aplicação deve lidar com **estados complexos**, **sincronização de dados**
 
 ## 📋 Requisitos Funcionais
 
-> ⚠️ **Aviso sobre os Requisitos Avançados:** Você **não é obrigado** a implementar todos os recursos avançados listados abaixo. Eles servem como opções para você demonstrar seu domínio técnico e ir além do básico. Escolha implementar aqueles que melhor destacam suas habilidades ou que você julga agregarem mais valor ao produto.
+> ⚠️ **Sobre os Requisitos Avançados:** você **não é obrigado** a implementar os recursos avançados listados abaixo. Eles são opções para você mostrar domínio técnico e ir além do básico. Escolha os que melhor mostram suas habilidades ou que você acha que agregam mais ao produto, e conte no README por que escolheu.
 
 ### 1. 🏠 Página Inicial (`/`)
 
@@ -98,9 +111,10 @@ A aplicação deve lidar com **estados complexos**, **sincronização de dados**
   - Lightbox/modal para fotos
   - Navegação por teclado
   - Thumbnails com lazy loading
-- **Disponibilidade em tempo real:**
+- **Disponibilidade:**
   - Mostrar quantos quartos restam
   - Indicador visual de escassez ("Apenas 2 quartos disponíveis!")
+  - Hotel ou quarto esgotado
 - **Comparação de quartos:**
   - Tabela comparativa de comodidades
   - Highlight de diferenças
@@ -126,7 +140,7 @@ A aplicação deve lidar com **estados complexos**, **sincronização de dados**
 - Resumo do hotel e quarto selecionados
 - Redirect se não houver seleção
 - Formulário com validação (nome, email, telefone)
-- Mensagem de sucesso ao finalizar
+- Ao finalizar, criar a reserva com `POST /bookings` do `mock-api` e redirecionar para a confirmação
 
 **Requisitos Avançados (Opcionais):**
 - **Multi-step form:**
@@ -142,6 +156,7 @@ A aplicação deve lidar com **estados complexos**, **sincronização de dados**
 - **Múltiplos hóspedes:**
   - Formulário dinâmico para cada hóspede
   - Validação individual
+- **Múltiplos quartos** na mesma reserva
 - **Cálculo de preços:**
   - Preço base × número de noites
   - Taxas e impostos
@@ -169,9 +184,9 @@ A aplicação deve lidar com **estados complexos**, **sincronização de dados**
 
 ### 5. ✅ Página de Confirmação (`/confirmation/[bookingId]`)
 
-**Novo requisito:**
-- Após finalizar reserva, redirecionar para página de confirmação
-- Mostrar número de reserva (pode ser gerado no cliente)
+**Requisitos Básicos:**
+- Buscar a reserva com `GET /bookings/[bookingId]` do `mock-api` (a página tem que funcionar se o usuário recarregar)
+- Mostrar o número da reserva
 - Resumo completo da reserva
 - Botão para nova busca
 
@@ -189,6 +204,37 @@ A aplicação deve lidar com **estados complexos**, **sincronização de dados**
 - **Retry mechanisms** automáticos e manuais
 - **Error logging** (console.error estruturado)
 - **Toast notifications** para feedback
+
+A `mock-api` simula lentidão e erro (`?_delay=`, `?_fail=1`, `--fail-rate`). Veja como em [`mock-api/README.md`](mock-api/README.md#simulando-lentidão-e-erro).
+
+---
+
+### 6. ➕ Outros avançados (qualquer página)
+
+Também opcionais, com a mesma regra: escolha os que quiser.
+
+**Features**
+- **Favoritos** persistidos
+- **Comparação** de hotéis (até 3)
+- **Histórico** de reservas
+- **Notificações** (toast system)
+- **Animações** com Framer Motion
+- **Mapas interativos** (Google Maps/Mapbox)
+- **Modo offline** (cache de buscas)
+- **PWA** capabilities
+- **i18n** (pt-BR + en-US)
+
+**Next.js**
+- **Partial Prerendering**
+- **Server Actions** para mutations
+- **Parallel Routes** para modals
+- **Incremental Static Regeneration**
+- **Edge Runtime** onde apropriado
+
+**Testes**
+- Testes unitários da lógica crítica (validação de datas, cálculo de preço, schemas Zod), com Vitest ou Jest
+- Testes de componente (Testing Library)
+- Testes E2E do fluxo de reserva (Playwright ou Cypress)
 
 ---
 
@@ -210,14 +256,22 @@ A aplicação deve lidar com **estados complexos**, **sincronização de dados**
 
 ## 📦 Entregáveis
 
-### 1. Código (Repositório Git)
+### 1. Código (repositório Git público)
+- Crie um repositório **público** no seu GitHub com a sua solução e mande o link para a gente
 - **Commits atômicos** com mensagens descritivas
 - Seguir **Conventional Commits**
 - Branch principal: `main`
 
-### 2. Deploy (Bônus mas recomendado)
-- Vercel ou similar
-- URL funcional disponibilizada junto com a entrega
+### 2. README da sua solução
+- **Como rodar:** os comandos para subir a `mock-api` e o front localmente, e as variáveis de ambiente necessárias (um `.env.example` ajuda)
+- **Decisões e trade-offs:** por que organizou o código assim, quais avançados escolheu e por quê
+- **O que ficou de fora:** o que você faria com mais tempo
+- **Uso de IA (opcional):** se quiser, conte como usou IA e qual workflow funcionou bem para você
+
+### 3. Deploy (bônus)
+- Front e `mock-api` hospedados por você (por exemplo, front na Vercel e API no Render ou Railway)
+- O [`mock-api/README.md`](mock-api/README.md) explica como subir a API (seção "Hospedando a API")
+- Mande as URLs junto com a entrega
 
 ---
 
@@ -232,9 +286,10 @@ A aplicação deve lidar com **estados complexos**, **sincronização de dados**
 
 ### 2. Funcionalidade (35%)
 - **Requisitos básicos:** Todos implementados consumindo o `mock-api`
-- **Requisitos avançados:** Avaliaremos os que forem implementados (lembrando que são opcionais)
+- **Requisitos avançados:** Avaliamos os que forem implementados, pela profundidade (lembrando que são opcionais)
 - **Edge cases:** Tratamento de erros, validações
 - **UX:** Fluidez, feedback, loading states
+- **Acessibilidade:** navegação por teclado, labels, foco visível, contraste
 
 ### 3. Arquitetura (15%)
 - **Escalabilidade:** Código preparado para crescer
@@ -243,37 +298,10 @@ A aplicação deve lidar com **estados complexos**, **sincronização de dados**
 - **Type safety:** TypeScript aproveitado
 
 ### 4. Documentação (5%)
+- **README:** Como rodar, decisões, o que ficou de fora
 - **Comentários:** Onde necessário
 - **JSDoc:** Em componentes complexos
 - **Commits:** Histórico limpo
-
----
-
-## 🌟 Diferenciais (Bônus)
-
-### Técnicos
-- [ ] **CI/CD** configurado (GitHub Actions)
-- [ ] **Docker** setup completo
-- [ ] **Analytics** tracking (simulado)
-- [ ] **i18n** (pt-BR + en-US)
-- [ ] **PWA** capabilities
-- [ ] **Error monitoring** setup (Sentry simulado)
-
-### Features
-- [ ] **Modo offline** (cache de buscas)
-- [ ] **Favoritos** persistidos
-- [ ] **Comparação** de hotéis (até 3)
-- [ ] **Histórico** de reservas
-- [ ] **Notificações** (toast system)
-- [ ] **Animações** com Framer Motion
-- [ ] **Mapas interativos** (Google Maps/Mapbox)
-
-### Performance
-- [ ] **Partial Prerendering** (Next.js 15)
-- [ ] **Server Actions** para mutations
-- [ ] **Parallel Routes** para modals
-- [ ] **Incremental Static Regeneration**
-- [ ] **Edge Runtime** onde apropriado
 
 ---
 
